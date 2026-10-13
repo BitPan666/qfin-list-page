@@ -1,4 +1,5 @@
 import importlib.util
+import re
 import shutil
 import tempfile
 import unittest
@@ -65,6 +66,37 @@ class RouterContractTests(unittest.TestCase):
         self.assertIn("The child owns PageSpec, execution, and validation after handoff.", text)
         self.assertIn("Stop applying parent generation rules after handoff.", text)
         self.assertIn("Pass the unmodified raw request", text)
+
+    def test_prompt_template_contract(self):
+        prompt_path = SKILL_ROOT / "references" / "prompt-template.md"
+        self.assertTrue(prompt_path.is_file())
+        text = prompt_path.read_text(encoding="utf-8")
+        first_non_empty = next(line for line in text.splitlines() if line.strip())
+        self.assertEqual(first_non_empty, "@figma")
+        self.assertIn("qfin-list-page", text)
+        self.assertIn("目标平台", text)
+        self.assertIn("目标平台（必填，三选一）：毓数 / 金毓盟 / 电销", text)
+        self.assertNotIn("app://", text)
+
+    def test_openai_metadata_contract(self):
+        metadata_path = SKILL_ROOT / "agents" / "openai.yaml"
+        self.assertTrue(metadata_path.is_file())
+        text = metadata_path.read_text(encoding="utf-8")
+        self.assertRegex(text, r'(?m)^\s*display_name:\s*["\']?QFIN List Page["\']?\s*$')
+
+        short_match = re.search(
+            r'(?m)^\s*short_description:\s*["\'](.+)["\']\s*$', text
+        )
+        self.assertIsNotNone(short_match)
+        self.assertGreaterEqual(len(short_match.group(1)), 25)
+        self.assertLessEqual(len(short_match.group(1)), 64)
+        self.assertIn("$qfin-list-page", text)
+
+        implicit_match = re.search(
+            r"(?m)^\s*allow_implicit_invocation:\s*(\w+)\s*$", text
+        )
+        if implicit_match:
+            self.assertEqual(implicit_match.group(1).lower(), "true")
 
     def _validate_after_replacing(self, old: str, new: str) -> list[str]:
         with tempfile.TemporaryDirectory() as tempdir:

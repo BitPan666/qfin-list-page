@@ -54,6 +54,8 @@ def validate(skill_root: Path) -> list[str]:
     errors: list[str] = []
     skill_path = skill_root / "SKILL.md"
     version_path = skill_root / "VERSION"
+    prompt_path = skill_root / "references" / "prompt-template.md"
+    metadata_path = skill_root / "agents" / "openai.yaml"
 
     if not skill_path.is_file():
         return ["missing SKILL.md"]
@@ -101,6 +103,41 @@ def validate(skill_root: Path) -> list[str]:
             continue
         if not (skill_root / link).resolve().exists():
             errors.append(f"unresolvable Markdown link: {link}")
+
+    if not prompt_path.is_file():
+        errors.append("missing prompt template")
+    else:
+        prompt = prompt_path.read_text(encoding="utf-8")
+        non_empty_lines = [line.strip() for line in prompt.splitlines() if line.strip()]
+        if not non_empty_lines or non_empty_lines[0] != "@figma":
+            errors.append("prompt template must start with @figma")
+        if "$qfin-list-page" not in prompt:
+            errors.append("prompt template must invoke $qfin-list-page")
+        if "目标平台（必填，三选一）：毓数 / 金毓盟 / 电销" not in prompt:
+            errors.append("prompt template must require one supported platform")
+        if "app://" in prompt:
+            errors.append("prompt template must not hard-code a connector ID")
+
+    if not metadata_path.is_file():
+        errors.append("missing agents/openai.yaml")
+    else:
+        metadata = metadata_path.read_text(encoding="utf-8")
+        if not re.search(
+            r'(?m)^\s*display_name:\s*["\']?QFIN List Page["\']?\s*$', metadata
+        ):
+            errors.append("metadata display_name must be QFIN List Page")
+        short_match = re.search(
+            r'(?m)^\s*short_description:\s*["\'](.+)["\']\s*$', metadata
+        )
+        if not short_match or not 25 <= len(short_match.group(1)) <= 64:
+            errors.append("metadata short_description must contain 25-64 characters")
+        if "$qfin-list-page" not in metadata:
+            errors.append("metadata default_prompt must invoke $qfin-list-page")
+        implicit_match = re.search(
+            r"(?m)^\s*allow_implicit_invocation:\s*(\w+)\s*$", metadata
+        )
+        if implicit_match and implicit_match.group(1).lower() != "true":
+            errors.append("allow_implicit_invocation must be true when declared")
 
     return errors
 

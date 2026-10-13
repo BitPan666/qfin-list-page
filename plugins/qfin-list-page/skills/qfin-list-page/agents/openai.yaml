@@ -1,0 +1,6 @@
+interface:
+  display_name: "QFIN List Page"
+  short_description: "统一路由并生成毓数、金毓盟与电销平台的标准数据列表页面"
+  default_prompt: "Use $qfin-list-page to generate a standard QFIN list page for the specified platform."
+policy:
+  allow_implicit_invocation: true
