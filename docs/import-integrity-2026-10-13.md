@@ -40,3 +40,20 @@ python3 scripts/compare_skill_trees.py \
 ## 过程备注
 
 首次执行测试时，Python 在目标目录生成或刷新了 `__pycache__`，完整性工具正确识别出差异。随后没有手工修改子 Skill，而是从源目录重新整目录复制，并使用 `PYTHONDONTWRITEBYTECODE=1` 重新运行测试与校验；最终三个目录均再次获得 `PASS`。
+
+## 仓库完成后的全量复验
+
+完成路由、提示词模板和 README 后再次执行全量验证，结果如下：
+
+| 检查 | 结果 |
+| --- | --- |
+| 仓库级测试 | 10/10 PASS |
+| 路由 Skill 测试 | 9/9 PASS |
+| 路由契约校验 | `PASS qfin-list-page 0.1.0` |
+| 官方 Skill 校验器 | `Skill is valid!` |
+| 官方 Plugin 校验器 | `Plugin validation passed` |
+| 三个平台子 Skill 测试 | 20/20、44/44、9/9 PASS |
+| 三个平台契约校验 | 全部 PASS |
+| 三个平台源目录与仓库目录比对 | 三次 `PASS` |
+
+全量复验同样设置 `PYTHONDONTWRITEBYTECODE=1`，因此没有改变已导入子 Skill 的内容。

@@ -1,0 +1,97 @@
+# qfin-list-page
+
+一个用于 QFIN 标准桌面端数据列表页的 Codex Plugin。用户只安装一次，即可同时获得统一入口和三个平台的独立生成能力。
+
+## 包含的 Skill
+
+Plugin 内含四个彼此独立的 Skill：
+
+- `qfin-list-page`：统一路由入口，只判断目标平台并选择一个子 Skill；
+- `qifu-yushu-list-page`：毓数平台列表页能力；
+- `qifu-jinyumeng-list-page`：金毓盟平台列表页能力；
+- `qifu-dianxiao-list-page`：电销平台列表页能力。
+
+日常使用时只调用 `$qfin-list-page`，不直接调用三个子 Skill 名称。路由层不会合并或改写平台规则，平台确认后只加载一个对应的子 Skill。
+
+## 从 GitHub 安装
+
+将下面的 `owner/qfin-list-page` 替换为实际 GitHub 仓库地址：
+
+```bash
+codex plugin marketplace add owner/qfin-list-page --ref main
+codex plugin add qfin-list-page@qfin-list-page
+```
+
+完成安装后，请新建一个 Codex 新任务再使用，让新的 Plugin 与 Skill 发现结果完整生效。
+
+开发者也可以从本地仓库安装：
+
+```bash
+codex plugin marketplace add /absolute/path/to/qfin-list-page
+codex plugin add qfin-list-page@qfin-list-page
+```
+
+## 使用方式
+
+推荐从 [`prompt-template.md`](plugins/qfin-list-page/skills/qfin-list-page/references/prompt-template.md) 复制完整提示词。目标平台是必填项；如果平台缺失、冲突或不支持，路由会停止并要求确认，不会默认选择毓数。
+
+三个最小示例：
+
+```text
+@figma
+使用 $qfin-list-page 为毓数平台生成客户管理列表页，筛选项、表格列和操作要求如下：……
+```
+
+```text
+@figma
+使用 $qfin-list-page 为金毓盟平台生成渠道订单列表页，目标文件与 Page 如下：……
+```
+
+```text
+@figma
+使用 $qfin-list-page 为电销平台更新线索分配列表页，保留现有导航并按以下字段调整：……
+```
+
+## 维护原则
+
+本仓库是四个 Skill 的唯一可编辑源。本地已安装目录和 Codex 缓存只是生成物，不在其中直接修改文件。
+
+修改单个平台 Skill 时：
+
+1. 只编辑本仓库内对应的子 Skill，不同步手改其他子 Skill，也不需要修改 Plugin 外壳；
+2. 运行该子 Skill 的测试和契约校验；
+3. 运行统一路由测试、路由校验和 Plugin 校验，确认改动没有破坏路由与打包边界；
+4. 发布时更新受影响 Skill 的 `VERSION`，并按语义化版本更新 `plugins/qfin-list-page/.codex-plugin/plugin.json` 中的 `version`；
+5. 推送 GitHub 后，让使用方刷新 marketplace、重装 Plugin，并开启新任务。
+
+GitHub 发布后的更新命令：
+
+```bash
+codex plugin marketplace upgrade qfin-list-page
+codex plugin remove qfin-list-page@qfin-list-page
+codex plugin add qfin-list-page@qfin-list-page
+```
+
+本地开发如果需要强制绕过旧缓存，请使用一个新的 patch `version` 作为 `cachebuster`，再执行 remove/add。不要在既有本地 Plugin 更新循环中手工修改 marketplace JSON；该文件也是仓库受控配置。
+
+## 完整验证
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_*.py' -v
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
+  -s plugins/qfin-list-page/skills/qfin-list-page/tests -p 'test_*.py' -v
+PYTHONDONTWRITEBYTECODE=1 python3 \
+  plugins/qfin-list-page/skills/qfin-list-page/scripts/validate_router.py
+
+UV_CACHE_DIR=/private/tmp/qfin-uv-cache PYTHONDONTWRITEBYTECODE=1 \
+  uv run --with pyyaml python \
+  /Users/panyue/.codex/skills/.system/skill-creator/scripts/quick_validate.py \
+  plugins/qfin-list-page/skills/qfin-list-page
+
+UV_CACHE_DIR=/private/tmp/qfin-uv-cache PYTHONDONTWRITEBYTECODE=1 \
+  uv run --with pyyaml python \
+  /Users/panyue/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py \
+  plugins/qfin-list-page
+```
+
+三个平台子 Skill 的测试、契约版本和原样导入结果见 [`docs/import-integrity-2026-10-13.md`](docs/import-integrity-2026-10-13.md)。
