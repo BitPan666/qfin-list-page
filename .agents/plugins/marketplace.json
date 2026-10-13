@@ -1,0 +1,20 @@
+{
+  "name": "qfin-list-page",
+  "interface": {
+    "displayName": "Qfin List Page"
+  },
+  "plugins": [
+    {
+      "name": "qfin-list-page",
+      "source": {
+        "source": "local",
+        "path": "./plugins/qfin-list-page"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

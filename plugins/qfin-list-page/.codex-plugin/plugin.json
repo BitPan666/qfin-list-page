@@ -1,0 +1,24 @@
+{
+  "name": "qfin-list-page",
+  "version": "0.1.0",
+  "description": "Route QFIN list-page requests to the Yushu, Jinyumeng, or Dianxiao platform skill.",
+  "author": {
+    "name": "潘越"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "QFIN List Page",
+    "shortDescription": "统一路由并生成毓数、金毓盟与电销平台的标准数据列表页面",
+    "longDescription": "Use one entry to route QFIN list-page work to the correct platform-specific Skill without mixing platform rules.",
+    "developerName": "潘越",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "defaultPrompt": [
+      "使用 qfin-list-page 为毓数平台生成标准数据列表页面。",
+      "使用 qfin-list-page 为金毓盟平台生成标准数据列表页面。",
+      "使用 qfin-list-page 为电销平台生成标准数据列表页面。"
+    ]
+  }
+}
