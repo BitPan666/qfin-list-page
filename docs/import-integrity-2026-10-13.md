@@ -57,3 +57,17 @@ python3 scripts/compare_skill_trees.py \
 | 三个平台源目录与仓库目录比对 | 三次 `PASS` |
 
 全量复验同样设置 `PYTHONDONTWRITEBYTECODE=1`，因此没有改变已导入子 Skill 的内容。
+
+## 本地 Plugin 迁移证据
+
+2026-10-13 在迁移前再次完成全部验证，结果与上表一致。随后执行可恢复迁移：
+
+- 四个旧独立安装已移动至 `/Users/panyue/.codex/skills-archive/qfin-list-page-pre-plugin-2026-10-13/`；每个归档目录的 `SKILL.md` 均存在。
+- `/Users/panyue/.codex/skills/` 下不再存在 `qifu-list-page`、`qifu-yushu-list-page`、`qifu-jinyumeng-list-page`、`qifu-dianxiao-list-page`，因此不会与 Plugin 重复发现。
+- 本地仓库 marketplace 注册结果：`marketplaceName=qfin-list-page`，`alreadyAdded=false`。
+- Plugin 安装结果：`pluginId=qfin-list-page@qfin-list-page`，`version=0.1.0`，`installed=true`，`enabled=true`。
+- Plugin 源指向本仓库的 `plugins/qfin-list-page`；安装缓存为 `/Users/panyue/.codex/plugins/cache/qfin-list-page/qfin-list-page/0.1.0`。
+- 安装缓存中的 Skill 目录恰好为 `qfin-list-page`、`qifu-yushu-list-page`、`qifu-jinyumeng-list-page`、`qifu-dianxiao-list-page`。
+- 安装后再次运行官方 Plugin 校验器，结果为 `Plugin validation passed`。
+
+实际运行时的 Skill 发现需要在新的 Codex 任务中验证；本次迁移没有创建或修改任何 Figma 页面。
