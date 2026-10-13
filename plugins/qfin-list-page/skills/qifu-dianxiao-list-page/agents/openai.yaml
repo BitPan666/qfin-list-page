@@ -1,0 +1,6 @@
+interface:
+  display_name: "Qifu Dianxiao List Page"
+  short_description: "Create and audit Qifu Dianxiao desktop list pages"
+  default_prompt: "Use $qifu-dianxiao-list-page with @figma to create or audit a Qifu Dianxiao desktop list page."
+policy:
+  allow_implicit_invocation: false

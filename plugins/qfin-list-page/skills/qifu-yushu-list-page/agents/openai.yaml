@@ -1,0 +1,4 @@
+interface:
+  display_name: "Qifu Yushu List Page"
+  short_description: "使用真实组件生成、验证并交付毓数后台标准列表页"
+  default_prompt: "使用 $qifu-yushu-list-page 并调用 @figma 插件，根据毓数页面结构、筛选、列表操作、显式多选框配置与表格要求，在 Figma 中生成可编辑的毓数后台列表页；不根据菜单路径添加内容区导航，不根据按钮文案推断选择列，组件属性或 Slot 写入失败时停止并报告。"
