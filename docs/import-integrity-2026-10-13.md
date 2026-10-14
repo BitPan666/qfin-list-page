@@ -71,3 +71,32 @@ python3 scripts/compare_skill_trees.py \
 - 安装后再次运行官方 Plugin 校验器，结果为 `Plugin validation passed`。
 
 实际运行时的 Skill 发现需要在新的 Codex 任务中验证；本次迁移没有创建或修改任何 Figma 页面。
+
+## 版本管理引入复验（2026-10-14）
+
+版本管理以提交 `26051cf` 作为四个 Skill 树的业务内容基线。在实现 `versions.json`、`CHANGELOG.md`、发布、单 Skill 恢复和历史 Plugin 安装脚本后，执行：
+
+```bash
+git diff 26051cf -- \
+  plugins/qfin-list-page/skills/qfin-list-page \
+  plugins/qfin-list-page/skills/qifu-yushu-list-page \
+  plugins/qfin-list-page/skills/qifu-jinyumeng-list-page \
+  plugins/qfin-list-page/skills/qifu-dianxiao-list-page
+```
+
+命令无输出，证明四个 Skill 树没有变化。版本管理只增加仓库根级元数据、自动化脚本、测试和维护文档。
+
+本次复验结果：
+
+| 检查 | 结果 |
+| --- | --- |
+| 仓库级测试 | 36/36 PASS |
+| 路由 Skill 测试 | 9/9 PASS |
+| 路由契约校验 | `PASS qfin-list-page 0.1.0` |
+| 官方 Skill 校验器 | `Skill is valid!` |
+| 三个平台子 Skill 测试 | 20/20、44/44、9/9 PASS |
+| 三个平台契约校验 | 全部 PASS |
+| Codex CLI 本地 Plugin 解析 | `version=0.1.0`、`installed=true`、`enabled=true` |
+| `versions.json` 与 Plugin/四个 Skill 版本一致性 | PASS |
+
+当前 Codex 安装中仍有官方 `quick_validate.py` Skill 校验器，但不再提供之前使用的独立 `plugin-creator/scripts/validate_plugin.py`。因此本次 Plugin 有效性由仓库布局契约测试和 `codex plugin list --marketplace qfin-list-page --available --json` 的官方 CLI 解析结果共同确认。

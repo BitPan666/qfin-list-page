@@ -74,6 +74,31 @@ codex plugin add qfin-list-page@qfin-list-page
 
 本地开发如果需要强制绕过旧缓存，请使用一个新的 patch `version` 作为 `cachebuster`，再执行 remove/add。不要在既有本地 Plugin 更新循环中手工修改 marketplace JSON；该文件也是仓库受控配置。
 
+## 版本管理流程总览
+
+`release.py`、`rollback_skill.py` 和 `install_version.py` 默认都是 dry-run，只有显式使用 `--apply` 才会修改仓库文件或本地 Plugin 安装状态。Git 标签是唯一正式历史来源；不要直接编辑 Plugin 缓存，也不从缓存反向覆盖仓库。
+
+### 正常发布流程
+
+1. 只修改目标 Skill，并运行它的测试与契约校验。
+2. 先运行 `python3 scripts/release.py ...` dry-run，核对组件、版本、Changelog 和校验命令。
+3. 确认后加 `--apply`，检查实际差异并完成全量验证。
+4. 人工提交代码，再人工创建 Git 标签；脚本不自动推送 GitHub。
+5. 使用方重新安装后，新建 Codex 任务让新 Plugin 与 Skill 被完整加载。
+
+### 单 Skill 恢复流程
+
+1. 用 `python3 scripts/rollback_skill.py --skill <alias> --to <tag>` 预览目标 Skill 的历史差异。
+2. 加 `--apply` 后只恢复目标行为，保留当前 `VERSION`，并用备份和非目标哈希防止跨 Skill 污染。
+3. 再用 `release.py --component <alias> --bump patch` 发布更高的新版本，不复用旧版本号。
+
+### 整个 Plugin 临时降级流程
+
+1. 用 `python3 scripts/install_version.py --tag <tag>` 预览历史版本和恢复方案。
+2. 加 `--apply` 后从 detached worktree 安装完整历史 Plugin，然后新建 Codex 任务验证。
+3. 止损结束后运行 `python3 scripts/install_version.py --restore-current --apply`，恢复当前仓库版本，再新建 Codex 任务。
+4. 长期修复仍需在 `main` 上产生一个新的补丁版本，不移动也不覆盖旧标签。
+
 ## 准备新版本
 
 `release.py` 只接受已声明且实际发生修改的组件。所有公开命令默认是 dry-run；只有显式加上 `--apply` 才会写入版本文件。

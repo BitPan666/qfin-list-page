@@ -8,6 +8,7 @@ PLUGIN_ROOT = REPO_ROOT / "plugins" / "qfin-list-page"
 MANIFEST_PATH = PLUGIN_ROOT / ".codex-plugin" / "plugin.json"
 MARKETPLACE_PATH = REPO_ROOT / ".agents" / "plugins" / "marketplace.json"
 README_PATH = REPO_ROOT / "README.md"
+INTEGRITY_PATH = REPO_ROOT / "docs" / "import-integrity-2026-10-13.md"
 
 
 class PluginLayoutTests(unittest.TestCase):
@@ -68,6 +69,39 @@ class PluginLayoutTests(unittest.TestCase):
             "cachebuster",
         ):
             self.assertIn(required, text)
+
+    def test_version_management_distribution_layout(self):
+        for relative_path in (
+            "versions.json",
+            "CHANGELOG.md",
+            "scripts/release.py",
+            "scripts/rollback_skill.py",
+            "scripts/install_version.py",
+        ):
+            self.assertTrue((REPO_ROOT / relative_path).is_file(), f"missing {relative_path}")
+
+    def test_readme_documents_complete_release_and_recovery_workflows(self):
+        text = README_PATH.read_text(encoding="utf-8")
+        for required in (
+            "版本管理流程总览",
+            "正常发布流程",
+            "单 Skill 恢复流程",
+            "整个 Plugin 临时降级流程",
+            "python3 scripts/release.py",
+            "python3 scripts/rollback_skill.py",
+            "python3 scripts/install_version.py --tag",
+            "python3 scripts/install_version.py --restore-current",
+            "默认都是 dry-run",
+            "人工创建 Git 标签",
+            "不要直接编辑 Plugin 缓存",
+            "新建 Codex 任务",
+        ):
+            self.assertIn(required, text)
+
+    def test_integrity_record_proves_versioning_did_not_change_skill_trees(self):
+        text = INTEGRITY_PATH.read_text(encoding="utf-8")
+        self.assertIn("26051cf", text)
+        self.assertIn("四个 Skill 树没有变化", text)
 
 
 if __name__ == "__main__":
