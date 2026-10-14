@@ -43,45 +43,30 @@ class JinyumengSkillIdentityTest(unittest.TestCase):
         self.assertRegex(frontmatter.group(1), r"(?m)^name:\s*qifu-jinyumeng-list-page\s*$")
         self.assertRegex(frontmatter.group(1), r"(?m)^description:\s*Use when .+list pages.*$")
         self.assertIn("platform=jinyumeng", skill_text)
-        self.assertIn("readiness=draft", skill_text)
+        self.assertIn("readiness=ready", skill_text)
 
-    def test_draft_fails_closed_for_figma_generation_or_modification(self) -> None:
+    def test_ready_preserves_runtime_validation_and_platform_isolation(self) -> None:
         skill_text = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
 
-        self.assertIn("除受限验收试生成外，生成或修改 Figma 页面请求必须停止", skill_text)
+        self.assertIn("目标 Page 由用户指定", skill_text)
         self.assertIn("DEFERRED 反馈状态", skill_text)
         self.assertNotIn("PENDING 完整平台规则", skill_text)
         self.assertIn("CONFIRMED 完整组件映射", skill_text)
         self.assertNotIn("PENDING 完整组件映射", skill_text)
-        self.assertIn("PENDING 完整验收", skill_text)
+        self.assertIn("结构和视觉均为 PASS", skill_text)
         self.assertIn("不得回退到 `qifu-yushu-list-page`、`qifu-list-page`", skill_text)
         self.assertIn("禁止手绘占位", skill_text)
 
-    def test_draft_allows_only_the_explicit_normal_data_acceptance_trial(self) -> None:
-        skill_text = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
-        validation = (SKILL_ROOT / "references" / "structural-validation.md").read_text(
-            encoding="utf-8"
-        )
-        platform = (SKILL_ROOT / "references" / "platform-jinyumeng.md").read_text(
-            encoding="utf-8"
-        )
-
-        for required in (
-            "acceptance_trial",
-            "测试qifu-jinyumeng-list-page skill",
-            "`5037:8717`",
-            "正常数据状态",
-            "只新建一个顶层验收画板",
-            "不得修改、删除或覆盖该 Page 中任何已有节点",
-            "正式业务 Page 继续 BLOCKED",
-        ):
-            self.assertIn(required, skill_text)
-
-        self.assertIn("acceptanceTrial=true", validation)
-        self.assertIn("目标 Page ID = `5037:8717`", validation)
-        self.assertIn("验收画板创建前后已有顶层节点 ID 集合不变", validation)
-        self.assertIn("反馈状态标记为 DEFERRED", platform)
-        self.assertNotIn("PENDING feedback-state page placement", platform)
+    def test_ready_allows_user_selected_page_with_validation(self) -> None:
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        validation = (SKILL_ROOT / "references/structural-validation.md").read_text(encoding="utf-8")
+        self.assertIn("目标 Page 由用户指定", skill)
+        self.assertIn("不限定测试 Page", skill)
+        self.assertIn("保护无关已有内容", skill)
+        self.assertIn("structuralValidation", validation)
+        self.assertIn("visualValidation", validation)
+        self.assertNotIn("5037:8717", validation)
+        self.assertNotIn("正式业务 Page 继续 BLOCKED", skill)
 
     def test_ui_metadata_requires_explicit_invocation(self) -> None:
         metadata = (SKILL_ROOT / "agents" / "openai.yaml").read_text(encoding="utf-8")

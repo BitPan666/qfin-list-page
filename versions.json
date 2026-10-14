@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "pluginVersion": "0.1.0",
+  "pluginVersion": "0.1.1",
   "components": {
     "qfin-list-page": "0.1.0",
-    "qifu-yushu-list-page": "1.3.2",
-    "qifu-jinyumeng-list-page": "0.7.2",
-    "qifu-dianxiao-list-page": "0.1.0"
+    "qifu-yushu-list-page": "1.3.3",
+    "qifu-jinyumeng-list-page": "1.0.0",
+    "qifu-dianxiao-list-page": "1.0.0"
   }
 }

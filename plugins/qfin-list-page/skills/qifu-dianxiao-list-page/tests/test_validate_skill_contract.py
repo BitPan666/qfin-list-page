@@ -20,10 +20,10 @@ class SkillContractValidatorTest(unittest.TestCase):
         shutil.copytree(SKILL_ROOT, copied_root)
         return temp_dir, copied_root
 
-    def test_published_skill_satisfies_draft_contract(self) -> None:
+    def test_published_skill_satisfies_ready_contract(self) -> None:
         result = self.run_validator(SKILL_ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("PASS qifu-dianxiao-list-page 0.1.0 (draft)", result.stdout)
+        self.assertIn("PASS qifu-dianxiao-list-page 1.0.0 (ready)", result.stdout)
 
     def test_missing_platform_reference_is_rejected(self) -> None:
         temp_dir, copied_root = self.copy_skill()

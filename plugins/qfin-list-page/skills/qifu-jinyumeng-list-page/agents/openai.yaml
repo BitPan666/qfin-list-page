@@ -1,7 +1,7 @@
 interface:
   display_name: "Qifu Jinyumeng List Page"
-  short_description: "金毓盟后台列表页规则草案，写入前严格检查就绪状态"
-  default_prompt: "Use $qifu-jinyumeng-list-page with @figma to record or audit confirmed Jinyumeng list-page rules. While readiness=draft, stop before every Figma generation or modification and report the remaining PENDING items."
+  short_description: "创建、更新和审计金毓盟后台列表页"
+  default_prompt: "Use $qifu-jinyumeng-list-page with @figma to create, update, or audit a Jinyumeng list page in the user-specified file and Page. Validate component readback, structure, and screenshots before delivery."
 
 policy:
   allow_implicit_invocation: false

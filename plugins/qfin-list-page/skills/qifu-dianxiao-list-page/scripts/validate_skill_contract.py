@@ -91,7 +91,9 @@ REFERENCE_REQUIREMENTS = {
         "20px",
         "Navigation / HeaderMenu / Dianxiao Header",
         "5824:4491",
-        "BLOCKED readiness=draft",
+        "readiness=ready",
+            "只有结构和视觉均为 PASS",
+            "组件调用或验收失败返回 FAIL",
         "不存在独立操作栏",
         "标题默认隐藏",
         "1078px",
@@ -251,8 +253,8 @@ def validate(skill_root: Path) -> list[str]:
         validate_frontmatter(skill, errors)
         for required in (
             "platform=dianxiao",
-            "readiness=draft",
-            "任何正式业务页面的生成或修改请求均返回 `BLOCKED`",
+            "readiness=ready",
+            "目标 Page 由用户指定",
             "禁止手绘",
             "references/platform-dianxiao.md",
             "references/page-rules.md",
@@ -267,8 +269,8 @@ def validate(skill_root: Path) -> list[str]:
                 errors.append(f"SKILL.md: forbidden cross-platform identity '{forbidden}'")
 
     version = texts.get("VERSION", "").strip()
-    if version != "0.1.0":
-        errors.append("VERSION: expected 0.1.0")
+    if version != "1.0.0":
+        errors.append("VERSION: expected 1.0.0")
     validate_metadata(texts.get("agents/openai.yaml", ""), errors)
 
     for relative, requirements in REFERENCE_REQUIREMENTS.items():
@@ -297,7 +299,7 @@ def main(argv: list[str]) -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("PASS qifu-dianxiao-list-page 0.1.0 (draft)")
+    print("PASS qifu-dianxiao-list-page 1.0.0 (ready)")
     return 0
 
 

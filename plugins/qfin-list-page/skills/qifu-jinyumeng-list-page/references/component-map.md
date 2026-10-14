@@ -133,4 +133,4 @@
   - `size 尺寸` options: small, medium, and large.
 - These are shared-basic feedback components. Their component identities are closed; page-level placement remains governed by page-rules.md.
 
-The component map is complete for the current Jinyumeng list-page scope. List-page writing remains `BLOCKED` only by unresolved layout rules and complete-page acceptance, not by component identity.
+The component map is complete for the current Jinyumeng list-page scope. 正式写入按用户指定目标执行，并逐次完成布局与整页验收。

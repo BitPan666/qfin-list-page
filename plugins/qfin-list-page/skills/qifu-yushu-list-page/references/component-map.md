@@ -99,7 +99,7 @@ Input V2 的 `M 默认尺寸` 已是原生 32px：16px 图标垂直居中于 y=8
 | 固定整表 | `Data Display / Table / Table` | `3234:8525` | `f35bf5473bb6138c813aaac0cd1abb68b2ce0f21` | `type`、`size`、`contentFont` |
 | 标签 | `Data Display / Tag / Tag` | `3178:9659` | `a804e46f1544bd11fe932da5a86f04ea18d65bda` | 所有列表状态标签：`variant=light`、`size=medium`、`shape=square`、`disabled=false`、icon=false、close=false；`theme` 按语义映射，成功/启用=`success`、失败/禁用=`danger`、等待=`warning`、运行/处理中=`primary`。规则适用于所有文案和状态数量，不仅限启用/禁用 |
 | 空状态 | `Data Display / Empty / Empty` | `3447:134` | `4f33759f3944920ed616a87abb0cb67ed82aa4e1` | `status=NoData/NoResult/Network/NoPermission/Failed`、`size=S/M/L`、title/description 文本、描述/操作布尔属性 |
-| 分页 V2 | `Navigation / Pagination / Pagination-V2` | `3698:482` | `57f5f847efd41f61f15c32aed8b2d4a48885f871` | `size=medium/small`；`pageCount=1/2/3/4/5/6+`；`showTotal`、`showPageSize`、`showJumper`；`total`、`current`、`pageSize`、`jump`、`endPage`、`jumpTotal` |
+| 分页 V2 | `Navigation / Pagination / Pagination` | `3698:482` | `57f5f847efd41f61f15c32aed8b2d4a48885f871` | `size=medium/small`；`pageCount=1/2/3/4/5/6+`；`showTotal`、`showPageSize`、`showJumper`；`total`、`current`、`pageSize`、`jump`、`endPage`、`jumpTotal` |
 | 分页（旧版） | `Navigation / Pagination / Pagination` | `2597:2086` | `30f50ef8e07569627f467a7f9e025bdc896dcf77` | 保留完整 default/simple 与 32 个旧组合变体，仅兼容旧页面 |
 | 加载状态 | `Data Display / Loading / Loading` | `3268:29` | `19c936c5a0383d80a984eb1ac4350daf39d89c81` | `text`、`content=icon/text/icon+text`、`size` |
 | 危险操作确认 | `通知反馈 / Popconfirm / Popconfirm` | `3302:45015` | `4bbd515fd95cea014f8236e557ecda04f93c5608` | title/description 文案、icon/description/arrow、placement、theme |
@@ -182,3 +182,9 @@ Recommendation:
 ```
 
 只记录本次页面实际遇到的缺口，不把完整待办列表复制到每张页面。
+
+### 已核实的运行时身份与类型
+
+- 本 Skill 中 `Pagination-V2` 是逻辑角色名称，正式组件集名称为 `Navigation / Pagination / Pagination`；节点 `3698:482`、发布 Key `57f5f847efd41f61f15c32aed8b2d4a48885f871` 已核实一致，具备 pageCount 页数等属性。不要仅因没有 -V2 后缀判为组件缺失。
+- 旧分页节点 `2597:2086` 当前无法解析，不作为新页面的替代来源。
+- Tag 的 `disabled 禁用` 为 VARIANT，写入字符串 `"false"`；Show icon、Show closeBtn 才是 BOOLEAN，写入布尔值 false。

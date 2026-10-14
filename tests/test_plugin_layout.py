@@ -59,7 +59,7 @@ class PluginLayoutTests(unittest.TestCase):
         self.assertTrue(README_PATH.is_file())
         text = README_PATH.read_text(encoding="utf-8")
         for required in (
-            "codex plugin marketplace add owner/qfin-list-page --ref main",
+            "codex plugin marketplace add https://github.com/BitPan666/qfin-list-page.git --ref main",
             "codex plugin add qfin-list-page@qfin-list-page",
             "新任务",
             "$qfin-list-page",

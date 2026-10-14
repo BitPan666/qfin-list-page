@@ -102,9 +102,9 @@ Jinyumeng Header Cell
 3. Set `description 描述`, `showDescription 显示描述`, and `showAction 显示操作` only from explicit PageSpec content.
 4. Keep these feedback elements as real instances. 反馈状态的页面内布局为 DEFERRED; do not invoke them in the first normal-data acceptance trial or infer whether title, actions, table header, or pagination remains visible.
 
-## PENDING write contract
+## 写入失败与恢复
 
-- PENDING full error-code and recovery contract for failed Figma writes.
-- 不得猜测 unresolved component calls or post-write results.
-
-Until these contracts are complete, formal list-page generation or modification is `BLOCKED`; the exact bounded `acceptance_trial` in SKILL.md is the only write exception.
+- 缺少必需输入或映射时返回 BLOCKED；未解决信息标记 PENDING。
+- PROPERTY_NOT_FOUND、PROPERTY_AMBIGUOUS、PROPERTY_WRITE_FAILED、PROPERTY_READBACK_MISMATCH、INSTANCE_SWAP_FAILED、SLOT_WRITE_FAILED 和 POSTCONDITION_FAILED 返回 FAIL；记录节点 ID、属性 Key、期望与实际值。
+- 遵循 figma-use 的 safeToRetryWithoutCanvasRead：true 时修正后重试；false 时先读取画布再进行定点恢复。保留已成功内容，不扩大修改范围。
+- 每个实例写后回读，完成结构验收后截图检查；不得猜测调用结果或用手绘内容绕过失败。

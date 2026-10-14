@@ -15,7 +15,7 @@
 - Jinyumeng Input, Select, DatePicker, DateRange, Filter Item, the three-layer list-page Shell, Loading, and Empty/Error component identities now have confirmed mappings.
 - The filter region now has a confirmed responsive composition: fixed-width Filter Items are centered in dynamically equalized columns, and the query/reset/expand group occupies one additional Filter Item Slot after the visible filters.
 - The confirmed Jinyumeng Header is transparent, `56px` high, and contains the fixed brand lockup, notification entry, and user area; only the account name is editable.
-- The right-side list page may use the screenshot's broad region order only as a draft Jinyumeng information-architecture hypothesis. It must be confirmed within this platform and never authorizes importing another platform's rules, component IDs, or tokens.
+- Use the confirmed region order in page-rules.md; do not import another platform's rules, component IDs, or tokens.
 
 ## Navigation policy
 
@@ -32,10 +32,7 @@
 - Changes here must not modify or loosen the stable Yushu skill.
 - Shared-basic components are allowed only when explicitly mapped; platform-specific fallbacks are forbidden.
 
-## PENDING release blockers
+## 正式使用
 
-- PENDING complete-page instance readback, screenshot comparison, and acceptance evidence.
-- 反馈状态标记为 DEFERRED from the first normal-data acceptance trial; it is not a current release blocker.
-- 不得猜测 any missing platform resource or behavior.
-
-Formal platform execution remains `BLOCKED`; only the exact bounded `acceptance_trial` in SKILL.md may write to Figma.
+`readiness=ready`；在用户指定的文件和 Page 执行正常列表页任务。每次仍需完整结构回读、截图检查与验收证据。未确认信息标记 PENDING，不得猜测。
+反馈状态标记为 DEFERRED；未确认的 Empty、Loading、Error 行为按任务补齐，不阻塞正常数据页。

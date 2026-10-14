@@ -13,16 +13,41 @@ Plugin 内含四个彼此独立的 Skill：
 
 日常使用时只调用 `$qfin-list-page`，不直接调用三个子 Skill 名称。路由层不会合并或改写平台规则，平台确认后只加载一个对应的子 Skill。
 
-## 从 GitHub 安装
+## 新电脑安装：从 GitHub 获取
 
-从公开 GitHub 仓库安装：
+适用于首次安装的电脑。QFIN List Page 提供生成规范；实际读写 Figma 需要另行安装并授权 Figma 插件。当前发布版本为 **0.1.1**，包含毓数 1.3.3、金毓盟 1.0.0、电销 1.0.0。
+
+### 方式一：让 Codex 协助安装
+
+安装并登录 Codex 后，新建对话，粘贴：
+
+```text
+请从 https://github.com/BitPan666/qfin-list-page 添加插件市场，
+安装 QFIN List Page，并核对安装版本。
+请区分“添加插件源”和“完成插件安装”；如果需要界面操作，请告诉我具体步骤。
+```
+
+安装完成后，在插件目录安装并连接 Figma，使用有目标设计文件编辑权限的账号授权。然后新建一个 Codex 新任务，在输入框通过 @ 选择 Figma 和 QFIN List Page。
+
+### 方式二：终端安装
+
+需要电脑上已有可用的 Codex CLI；先运行 `codex --version`。若提示找不到命令，先按 [Codex CLI 官方安装说明](https://developers.openai.com/codex/cli) 安装 CLI，或使用上面的对话方式。
 
 ```bash
-codex plugin marketplace add BitPan666/qfin-list-page --ref main
+codex plugin marketplace add https://github.com/BitPan666/qfin-list-page.git --ref main
 codex plugin add qfin-list-page@qfin-list-page
 ```
 
-完成安装后，请新建一个 Codex 新任务再使用，让新的 Plugin 与 Skill 发现结果完整生效。
+第一条只添加插件源，第二条才安装插件。也可在添加源后，到 Codex 插件目录选择 QFIN List Page 点击安装。安装后新建任务；若插件列表未刷新，重启 Codex。
+
+本仓库公开，拉取插件无需取得私有仓库权限；Figma 文件的访问和编辑权限仍独立控制。不要复制其他电脑的账号凭据或授权文件。
+
+### 确认安装成功
+
+- `codex plugin list` 能找到 QFIN List Page，确认其已安装/启用。
+- 新对话的 @ 菜单可以选到 QFIN List Page 和 Figma。
+- 请求生成时明确平台、目标 Figma 文件、目标 Page 和业务需求。
+- 目标 Page 不限定测试 Page；创建与更新以用户指定目标为准。
 
 开发者也可以从本地仓库安装：
 
@@ -31,7 +56,13 @@ codex plugin marketplace add /absolute/path/to/qfin-list-page
 codex plugin add qfin-list-page@qfin-list-page
 ```
 
+如果此前配置了同名本地源，先用 `codex plugin marketplace list` 核对来源；确认需要切换后移除该源，再添加上述 GitHub 地址，避免刷新到旧的本地目录。
+
+安装机制参考 [OpenAI 插件文档](https://developers.openai.com/plugins/build/plugins)。
+
 ## 使用方式
+
+业务提示词只需提供平台、目标文件、Page、导航、筛选、列、操作和数据要求。布局、间距、尺寸、组件及验收遵循平台 Skill；有特殊需求再显式覆盖。
 
 推荐从 [`prompt-template.md`](plugins/qfin-list-page/skills/qfin-list-page/references/prompt-template.md) 复制完整提示词。目标平台是必填项；如果平台缺失、冲突或不支持，路由会停止并要求确认，不会默认选择毓数。
 
@@ -64,7 +95,7 @@ codex plugin add qfin-list-page@qfin-list-page
 4. 发布时更新受影响 Skill 的 `VERSION`，并按语义化版本更新 `plugins/qfin-list-page/.codex-plugin/plugin.json` 中的 `version`；
 5. 推送 GitHub 后，让使用方刷新 marketplace、重装 Plugin，并开启新任务。
 
-GitHub 发布后的更新命令：
+GitHub 发布后，在需要更新的电脑执行以下命令。刷新 marketplace 仅更新源快照，随后重新安装 Plugin 才会使用新版本：
 
 ```bash
 codex plugin marketplace upgrade qfin-list-page

@@ -129,16 +129,16 @@ INSTANCE_SWAP 的目标必须是已解析的真实 ComponentNode：
 
 ## 5. 关键组件逻辑属性
 
-下表只记录稳定的逻辑 Key 前缀和类型。实际 Key 必须在实例上动态解析。
+下表记录已核实的完整展示名称（包含中文部分）和类型。仅动态解析 `#` 后缀，不对英文短名做模糊前缀匹配。表中的省略号表示逐项展开，例如 action1 文案、action2 文案、action3 文案、action4 文案。实际 Key 必须在实例上动态解析。
 
 | 组件 | 逻辑属性 | Key 前缀 | 类型 | 必需条件 |
 | --- | --- | --- | --- | --- |
 | Yushu Header-V2 | 当前入口 | `activeMenu 当前菜单` | VARIANT | 毓数页面必需 |
-| List Page Shell-V2 | 页面标题 | `pageHeaderSlot` | SLOT | 显示标题时必需 |
-| List Page Shell-V2 | 筛选栏 | `filterBarSlot` | SLOT | 显示筛选时必需 |
-| List Page Shell-V2 | 数据区 | `tableSlot` | SLOT | 必需 |
-| List Page Shell-V2 | 标题开关 | `showPageHeader` | BOOLEAN | 必需 |
-| List Page Shell-V2 | 筛选开关 | `showFilterBar` | BOOLEAN | 必需 |
+| List Page Shell-V2 | 页面标题 | `pageHeaderSlot 页头插槽` | SLOT | 显示标题时必需 |
+| List Page Shell-V2 | 筛选栏 | `filterBarSlot 筛选栏插槽` | SLOT | 显示筛选时必需 |
+| List Page Shell-V2 | 数据区 | `tableSlot 表格插槽` | SLOT | 必需 |
+| List Page Shell-V2 | 标题开关 | `showPageHeader 显示页头` | BOOLEAN | 必需 |
+| List Page Shell-V2 | 筛选开关 | `showFilterBar 显示筛选栏` | BOOLEAN | 必需 |
 | SideMenuItem-V2 | 文案 | `Label` | TEXT | 每项必需 |
 | SideMenuItem-V2 | 层级 | `Level` | VARIANT | 每项必需 |
 | SideMenuItem-V2 | 子菜单 | `Has Submenu` | VARIANT | 每项必需 |
@@ -152,42 +152,42 @@ INSTANCE_SWAP 的目标必须是已解析的真实 ComponentNode：
 | Filter Item-V2 | 控件 | `controlSlot 筛选控件插槽` | SLOT | 每个筛选项必需 |
 | Filter Bar-V2 | 展开 | `expanded 展开` | VARIANT | 必需 |
 | Filter Bar-V2 | 触发方式 | `trigger 触发方式` | VARIANT | 必需 |
-| Filter Bar-V2 | 快捷条件 | `showQuickFilters` | BOOLEAN | 必需 |
-| Filter Bar-V2 | 主操作 | `showPrimaryAction` | BOOLEAN | 必需 |
-| Filter Bar-V2 | 常用筛选 | `primaryFiltersSlot` | SLOT | 有筛选时必需 |
-| Filter Bar-V2 | 更多筛选 | `moreFiltersSlot` | SLOT | 展开筛选时必需 |
-| Filter Bar-V2 | 快捷条件内容 | `quickFiltersSlot` | SLOT | 显示快捷条件时必需 |
-| Filter Bar-V2 | 查询操作 | `queryActionsSlot` | SLOT | 按钮触发时必需 |
-| Filter Bar-V2 | 页面主操作 | `primaryActionSlot` | SLOT | 仅兼容旧页面；新列表页不使用 |
+| Filter Bar-V2 | 快捷条件 | `showQuickFilters 显示快捷条件` | BOOLEAN | 必需 |
+| Filter Bar-V2 | 主操作 | `showPrimaryAction 显示主操作` | BOOLEAN | 必需 |
+| Filter Bar-V2 | 常用筛选 | `primaryFiltersSlot 常用筛选插槽` | SLOT | 有筛选时必需 |
+| Filter Bar-V2 | 更多筛选 | `moreFiltersSlot 更多筛选插槽` | SLOT | 展开筛选时必需 |
+| Filter Bar-V2 | 快捷条件内容 | `quickFiltersSlot 快捷条件插槽` | SLOT | 显示快捷条件时必需 |
+| Filter Bar-V2 | 查询操作 | `queryActionsSlot 查询操作插槽` | SLOT | 按钮触发时必需 |
+| Filter Bar-V2 | 页面主操作 | `primaryActionSlot 主操作插槽` | SLOT | 仅兼容旧页面；新列表页不使用 |
 | Input Base-V2 | 文案 | `value 文本` | TEXT | 必需 |
 | Input Base-V2 | 内容状态 | `content 内容` / `content` | VARIANT | 必需 |
-| Input Base-V2 | 尺寸 | `size 尺寸` / `size` | VARIANT | 必需 |
+| Input Base-V2 | 尺寸 | `size 尺寸` / `size 尺寸` | VARIANT | 必需 |
 | Input Base-V2 | 状态 | `state 状态` / `state` | VARIANT | 必需 |
-| Select | 文案 | `value` | TEXT | 必需 |
-| Select | 模式 | `mode` | VARIANT | 必需 |
-| Select | 尺寸 | `size` | VARIANT | 必需 |
-| Button | 文案 | `text` | TEXT | 必需 |
-| Button | 类型 | `variant` | VARIANT | 必需 |
-| Button | 尺寸 | `size` | VARIANT | 必需 |
-| Table Shell-V2 | 尺寸 | `size` | VARIANT | 必需 |
-| Table Shell-V2 | 类型 | `type` | VARIANT | 必需 |
-| Table Shell-V2 | 选择列 | `selection` | VARIANT | 必需 |
-| Table Shell-V2 | 表头 | `headerSlot` | SLOT | Data 状态必需 |
-| Table Shell-V2 | 数据行 | `rowsSlot` | SLOT | 必需 |
-| Table Shell-V2 | 分页 | `paginationSlot` | SLOT | 显示分页时必需 |
-| Header Cell-V2 | 文案 | `headerText` | TEXT | 每列必需 |
-| Header Cell-V2 | 尺寸 | `size` | VARIANT | 每列必需 |
-| Row-V2 | 单元格 | `cellsSlot` | SLOT | 每行必需 |
-| Content Cell-V2 | 内容 | `contentSlot` | SLOT | 每格必需 |
-| Text-V2 | 文案 | `value` | TEXT | 文本格必需 |
-| Action Content-V2 | 动作文案 | `action1`…`action4` | TEXT | 按动作数必需 |
-| Action Content-V2 | 动作开关 | `showAction2`…`showAction4` | BOOLEAN | 按动作数必需 |
-| Tag | 类型/主题/尺寸/形状 | `variant` / `theme` / `size` / `shape` | VARIANT | 每个列表标签必需；`variant=light`、`size=medium`、`shape=square` |
-| Tag | 禁用 | `disabled` | BOOLEAN | 每个列表标签必需；固定为 `false` |
+| Select | 文案 | `value 文本` | TEXT | 必需 |
+| Select | 模式 | `mode 模式` | VARIANT | 必需 |
+| Select | 尺寸 | `size 尺寸` | VARIANT | 必需 |
+| Button | 文案 | `text 文案` | TEXT | 必需 |
+| Button | 类型 | `variant 类型` | VARIANT | 必需 |
+| Button | 尺寸 | `size 尺寸` | VARIANT | 必需 |
+| Table Shell-V2 | 尺寸 | `size 尺寸` | VARIANT | 必需 |
+| Table Shell-V2 | 类型 | `type 类型` | VARIANT | 必需 |
+| Table Shell-V2 | 选择列 | `selection 选择列` | VARIANT | 必需 |
+| Table Shell-V2 | 表头 | `headerSlot 表头插槽` | SLOT | Data 状态必需 |
+| Table Shell-V2 | 数据行 | `rowsSlot 数据行插槽` | SLOT | 必需 |
+| Table Shell-V2 | 分页 | `paginationSlot 分页插槽` | SLOT | 显示分页时必需 |
+| Header Cell-V2 | 文案 | `headerText 表头文案` | TEXT | 每列必需 |
+| Header Cell-V2 | 尺寸 | `size 尺寸` | VARIANT | 每列必需 |
+| Row-V2 | 单元格 | `cellsSlot 行单元格插槽` | SLOT | 每行必需 |
+| Content Cell-V2 | 内容 | `contentSlot 内容插槽` | SLOT | 每格必需 |
+| Text-V2 | 文案 | `value 文案` | TEXT | 文本格必需 |
+| Action Content-V2 | 动作文案 | `action1 文案`…`action4 文案` | TEXT | 按动作数必需 |
+| Action Content-V2 | 动作开关 | `showAction2 显示动作2`…`showAction4 显示动作4` | BOOLEAN | 按动作数必需 |
+| Tag | 类型/主题/尺寸/形状 | `variant 类型` / `theme 主题` / `size 尺寸` / `shape 形状` | VARIANT | 每个列表标签必需；`variant=light`、`size=medium`、`shape=square` |
+| Tag | 禁用 | `disabled 禁用` | VARIANT | 每个列表标签必需；固定为字符串 `"false"`，允许值为 `"false"` / `"true"`，不得传布尔值 |
 | Tag | 文案 | `text` | TEXT | 每个列表标签必需 |
 | Tag | 图标/关闭 | `Show icon` / `Show closeBtn` | BOOLEAN | 每个列表标签必需；均固定为 `false` |
-| Pagination-V2 | 页数档位 | `pageCount` | VARIANT | 分页必需 |
-| Pagination-V2 | 总数/每页/跳页 | `showTotal` / `showPageSize` / `showJumper` | BOOLEAN | 分页必需 |
+| Pagination-V2 | 页数档位 | `pageCount 页数` | VARIANT | 分页必需 |
+| Pagination-V2 | 总数/每页/跳页 | `showTotal 显示总数` / `showPageSize 显示每页条数` / `showJumper 显示快速跳转` | BOOLEAN | 分页必需 |
 
 如果表中的前缀与运行时属性无法唯一匹配，先记录实际属性清单并停止。只有维护者核对母版后才能更新契约。
 

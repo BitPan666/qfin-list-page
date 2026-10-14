@@ -181,3 +181,7 @@ missingComponents[]
 ```
 
 只有结构验收和视觉验收均为 `PASS` 时，才能使用“完成”“已生成”或同义结论。
+
+### 属性类型与身份验收补充
+
+Tag 的 disabled=false 表示 `disabled 禁用` 类型为 VARIANT 且回读严格等于字符串 `"false"`；Show icon、Show closeBtn 为 BOOLEAN 且回读严格等于布尔值 false，不进行隐式类型转换。Pagination-V2 计数按 component-map 中已核实的节点与发布 Key 识别，正式名称为 `Navigation / Pagination / Pagination`。

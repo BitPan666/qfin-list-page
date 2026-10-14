@@ -62,7 +62,7 @@
 
 无。Header、SideMenu、17 个一级菜单图标、页面 Shell、筛选基础组件、12px 动态表格与分页均已完成真实组件映射。
 
-Skill 仍保持 `readiness=draft`，仅等待用户确认纠偏后的完整页面，不代表仍有组件缺口。
+Skill 为 `readiness=ready`，已获用户授权正式使用；每次仍需检查真实组件与页面。
 
 ## 12px 动态表格验证结论
 

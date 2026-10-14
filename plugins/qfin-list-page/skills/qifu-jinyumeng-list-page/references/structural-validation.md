@@ -2,6 +2,9 @@
 
 ## Draft checks already available
 
+- 无明确尺寸覆盖时，外层画板回读为 `1366px` × `768px`；有覆盖时按用户指定值验收，未指定的维度仍使用默认值。用户明确要求高度随完整内容调整时，允许自适应高度。
+- 固定视口下，筛选展开前后外层尺寸保持不变；超高业务内容具有内部纵向滚动，末行与分页可滚动到达，字体、控件和行高保持规范。
+
 - The top header resolves to `Navigation / HeaderMenu / Jinyumeng Header`, node `4993:1440`; it is `56px` high, transparent, uses `20px` horizontal padding, and keeps the fixed brand/notification/user structure.
 - Sidebar items resolve to `JYM-SideMenuItem` and preserve `Level`, `Has Submenu`, `State`, label, and icon Instance swap properties.
 - First-level online menu icons resolve to real `Icon/jinyumeng/*` components.
@@ -43,21 +46,11 @@
 - Loading feedback resolves to `Data Display / Loading / Loading`, node `3268:29`, or Spinner `3267:8` for an explicitly icon-only indicator.
 - Empty and error feedback resolves to `Data Display 数据展示 / Empty 空状态 / Empty`, node `3621:45`, with the requested `status 状态`, description, and action visibility properties.
 
-## Release blockers
+## 每次交付验收
 
-- PENDING post-write instance readback and screenshot comparison workflow.
-- PENDING acceptance owner and pass/fail evidence format for a complete list page.
-- Feedback-state behavior is DEFERRED from the first normal-data trial.
-- 不得猜测 missing post-write evidence or declare the draft ready from these partial checks.
-
-## Bounded acceptance-trial checks
-
-- PageSpec records `acceptanceTrial=true`, normal data state, and target Page `测试qifu-jinyumeng-list-page skill`.
-- 目标 Page ID = `5037:8717`; a different Page name or ID is a hard `BLOCKED` result.
-- Capture the target Page's existing top-level node IDs before writing. Only one new top-level frame may be added, and 验收画板创建前后已有顶层节点 ID 集合不变.
-- Every created node is the new frame or its descendant. No existing node, component master, variable, or style appears in the mutated-node list.
-- Run every existing component, Slot, count, mode, geometry, table, and pagination check above on the new frame.
-- Capture a whole-frame screenshot and record structure and visual results separately as `PASS` or `FAIL`.
-- A `PASS` completes the trial evidence but does not itself change `readiness=draft`; user acceptance is required before a later readiness update.
-
-Until the trial evidence passes, structural validation remains partial and cannot authorize formal Figma writes.
+- 目标 Page ID 由用户指定；不得硬编码测试 Page。
+- 创建前记录已有节点，只新增所需画板；更新只触及用户授权目标，保护无关节点。
+- 依次执行组件解析、属性类型/值域/回读、实例关系、数量、主题、几何及分页检查；失败记录节点、期望值、实际值和原因。
+- 结构 PASS 后截图检查整页；分别返回 structuralValidation、visualValidation 的 PASS 或 FAIL。
+- 缺少输入返回 BLOCKED；未执行的检查记录 PENDING。不得猜测或伪造验收结果。
+- 反馈状态仍为 DEFERRED，按具体需求补齐未确认行为；不阻塞正常数据页。

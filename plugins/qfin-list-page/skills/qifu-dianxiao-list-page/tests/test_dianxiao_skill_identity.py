@@ -15,7 +15,7 @@ class DianxiaoSkillIdentityTest(unittest.TestCase):
         skill = self.read("SKILL.md")
         self.assertIn("name: qifu-dianxiao-list-page", skill)
         self.assertIn("platform=dianxiao", skill)
-        self.assertIn("readiness=draft", skill)
+        self.assertIn("readiness=ready", skill)
         self.assertIn("BLOCKED", skill)
         self.assertNotIn("platform=yushu", skill)
         self.assertNotIn("platform=jinyumeng", skill)

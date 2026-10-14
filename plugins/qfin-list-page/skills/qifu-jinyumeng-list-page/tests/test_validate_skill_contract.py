@@ -33,11 +33,11 @@ class SkillContractValidatorTest(unittest.TestCase):
             encoding="utf-8",
         )
 
-    def test_published_skill_satisfies_draft_contract(self) -> None:
+    def test_published_skill_satisfies_ready_contract(self) -> None:
         result = self.run_validator(SKILL_ROOT)
 
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("PASS qifu-jinyumeng-list-page 0.7.2 (draft+acceptance_trial)", result.stdout)
+        self.assertIn("PASS qifu-jinyumeng-list-page 1.0.0 (ready)", result.stdout)
 
     def test_missing_platform_reference_is_rejected(self) -> None:
         temp_dir, copied_root = self.copy_skill()
@@ -70,14 +70,14 @@ class SkillContractValidatorTest(unittest.TestCase):
         self.addCleanup(temp_dir.cleanup)
         skill_file = copied_root / "SKILL.md"
         skill_file.write_text(
-            skill_file.read_text(encoding="utf-8").replace("生成或修改 Figma 页面请求必须停止", ""),
+            skill_file.read_text(encoding="utf-8").replace("组件调用或验收失败返回 FAIL", ""),
             encoding="utf-8",
         )
 
         result = self.run_validator(copied_root)
 
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("生成或修改 Figma 页面请求必须停止", result.stdout)
+        self.assertIn("组件调用或验收失败返回 FAIL", result.stdout)
 
     def test_forbidden_yushu_node_id_is_rejected(self) -> None:
         temp_dir, copied_root = self.copy_skill()
@@ -96,19 +96,19 @@ class SkillContractValidatorTest(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("3639" + ":1529", result.stdout)
 
-    def test_missing_draft_readiness_is_rejected(self) -> None:
+    def test_missing_ready_readiness_is_rejected(self) -> None:
         temp_dir, copied_root = self.copy_skill()
         self.addCleanup(temp_dir.cleanup)
         skill_file = copied_root / "SKILL.md"
         skill_file.write_text(
-            skill_file.read_text(encoding="utf-8").replace("readiness=draft", ""),
+            skill_file.read_text(encoding="utf-8").replace("readiness=ready", ""),
             encoding="utf-8",
         )
 
         result = self.run_validator(copied_root)
 
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("readiness=draft", result.stdout)
+        self.assertIn("readiness=ready", result.stdout)
 
     def test_forbidden_platform_filename_is_rejected(self) -> None:
         temp_dir, copied_root = self.copy_skill()

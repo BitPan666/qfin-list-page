@@ -7,40 +7,22 @@ description: Use when explicit requests concern Qifu Jinyumeng list pages, their
 
 ## Overview
 
-This is the platform-isolated Jinyumeng list-page skill. Its fixed identity is `platform=jinyumeng` and its current maturity is `readiness=draft` with one bounded `acceptance_trial` write path.
+This platform-isolated skill creates, updates, and audits standard Jinyumeng list pages with real component instances. Fixed identity: `platform=jinyumeng`.
 
-The draft may record and audit confirmed evidence, including the Jinyumeng header/sidebar, internal tabs, mode-aware shared buttons, filter adapters, page Shells, feedback components, and Jinyumeng Table family. Formal business-page writes remain blocked; only the exact acceptance trial below is authorized.
+## 正式使用与目标位置
 
-## Readiness gate
+当前 `readiness=ready`，已由用户明确授权正式使用。允许在用户指定的 Figma 文件和目标 Page 中创建、更新或审计标准列表页，不限定测试 Page，不要求 acceptance_trial。
 
-在 `readiness=ready` 前，除受限验收试生成外，生成或修改 Figma 页面请求必须停止并报告缺失项。平时只允许只读检查、规则录入、映射补全、契约校验和回归验证。
+- 目标 Page 由用户指定；指定名称不存在时可新建同名 Page。缺少或存在同名歧义时先确认，不默认写入第一个 Page。
+- 未特别说明时，桌面端画板默认宽 `1366px`、高 `768px`；用户明确指定尺寸或高度随内容调整时，以用户要求为准。溢出处理见 Page rules。
+- 创建时新增独立画板；更新时仅修改用户明确指定的页面节点。保护无关已有内容，不擅自修改组件母版、变量或样式。
+- 每次仍需完成组件解析、属性与实例关系回读、结构检查及整页截图；只有结构和视觉均为 PASS 才交付完成。
+- 必需信息缺失返回 BLOCKED；组件调用或验收失败返回 FAIL，记录具体节点和原因，不手绘替代。
+- 正式启用表示用户授权使用，不替代每次任务的实际验收，不宣称未经执行的测试已经通过。
 
-- DEFERRED 反馈状态：Empty、Loading、Error 不进入首轮正常数据列表页验收，也不阻塞本轮 `acceptance_trial`。
-- CONFIRMED 完整组件映射：当前列表页范围内的 Header、Sidebar、Tabs、Button、Filter、Shell、Table、Pagination 与反馈组件均已登记；不得替换或回退。
-- PENDING 完整验收：完整页面的实例关系、视觉回读与通过标准尚未闭环。
+CONFIRMED 完整组件映射：Header、Sidebar、Tabs、Button、Filter、Shell、Table、Pagination 与反馈组件均已登记。正常数据状态可正式生成。DEFERRED 反馈状态：Empty、Loading、Error 的未确认页面行为仍需针对需求补齐，不阻塞正常列表页。
 
-## Bounded acceptance trial
-
-Only treat a request as `acceptance_trial` when every condition below is true:
-
-1. The user explicitly invokes this Skill and Figma, requests a complete-page structure readback and screenshot check, and targets the existing Page `测试qifu-jinyumeng-list-page skill`, node `5037:8717`.
-2. The requested page uses 正常数据状态. Empty, Loading, and Error are excluded.
-3. 只新建一个顶层验收画板 inside that Page. New descendants may be assembled only inside this frame.
-4. 不得修改、删除或覆盖该 Page 中任何已有节点, component master, variable, style, or any node outside the new acceptance frame.
-5. The trial uses only mapped Jinyumeng or explicitly shared-basic component instances and keeps the page at `readiness=draft` after execution.
-6. Any component resolution, property, Instance swap, Slot, readback, or screenshot failure returns `FAIL`; do not hand-draw a replacement and do not broaden the write scope.
-
-All other writes, including any formal business Page, remain prohibited: 正式业务 Page 继续 BLOCKED.
-
-不得回退到 `qifu-yushu-list-page`、`qifu-list-page`，禁止手绘占位，也不得借用其他平台的规则、组件、节点 ID 或视觉细节。未知信息一律标记为 `PENDING` 或 `BLOCKED`，不得猜测。
-
-Blocked response:
-
-```text
-BLOCKED readiness=draft platform=jinyumeng
-Missing: PENDING 完整验收；request does not satisfy the bounded acceptance_trial contract.
-Confirmed rules may be audited, but no Figma generation or modification was attempted.
-```
+不得回退到 `qifu-yushu-list-page`、`qifu-list-page`，禁止手绘占位。未知信息记录 PENDING，不得猜测其他平台资源。
 
 ## Reference routing
 
@@ -54,6 +36,6 @@ Read only the references relevant to the request:
 
 Run `scripts/validate_skill_contract.py` after every change. A validator failure is a release block, not permission to infer missing details.
 
-## Exit condition
+## Delivery
 
-Only change `readiness=draft` to `readiness=ready` after the bounded acceptance trial passes and the user accepts its evidence. The draft remains fail-closed for every write outside the exact trial contract.
+返回 Skill 版本、目标 Page 与画板链接、组件解析及属性回读摘要、结构与视觉 PASS/FAIL、真实缺口与输入假设。readiness=ready 不自动代表单次页面验收通过。

@@ -7,25 +7,19 @@ description: Use when explicit requests concern Qifu Dianxiao desktop list pages
 
 ## Overview
 
-把业务描述转换为电销平台列表页规格，并在组件映射完整后使用真实 Figma 实例组装页面。本 Skill 固定 `platform=dianxiao`；当前为 `readiness=draft`，组件映射与纠偏回归已经完成，等待用户确认后切换为 ready。不得借用毓数或金毓盟的导航、Header、Shell、节点 ID 或视觉规则补缺口。
+把业务描述转换为电销平台列表页，并使用真实 Figma 实例组装。固定 `platform=dianxiao`。不得借用其他平台的导航、Header、Shell 或视觉规则补缺口。
 
-## Readiness gate
+## 正式使用与目标位置
 
-在用户确认 readiness 前，任何正式业务页面的生成或修改请求均返回 `BLOCKED`。页面 Shell、17 个一级菜单图标、12px 动态表格和完整回归页已经通过技术验收；当前只允许：
+当前 `readiness=ready`，已由用户明确授权正式使用。允许在用户指定的 Figma 文件和目标 Page 中创建、更新或审计标准列表页，不限定测试 Page，不要求 acceptance_trial。
 
-- 读取和审计电销页面；
-- 补全组件映射与平台规则；
-- 形成 PageSpec；
-- 运行契约校验与只读结构检查。
-- 在 Figma Page `测试` 中创建、修正和复核 Skill 回归画板；不得写入正式业务 Page。
+- 目标 Page 由用户指定；指定名称不存在时可新建同名 Page。缺少或存在同名歧义时先确认，不默认写入第一个 Page。
+- 创建时新增独立画板；更新时仅修改用户明确指定的页面节点。保护无关已有内容，不擅自修改组件母版、变量或样式。
+- 每次仍需完成组件解析、属性与实例关系回读、结构检查及整页截图；只有结构和视觉均为 PASS 才交付完成。
+- 必需信息缺失返回 BLOCKED；组件调用或验收失败返回 FAIL，记录具体节点和原因，不手绘替代。
+- 正式启用表示用户授权使用，不替代每次任务的实际验收，不宣称未经执行的测试已经通过。
 
-禁止手绘 Header、菜单、筛选、表格或分页来绕过映射。缺失信息标记为 `PENDING`，不推断为已存在。
-
-```text
-BLOCKED readiness=draft platform=dianxiao
-Missing: unresolved required component mappings or complete-page acceptance evidence.
-No Figma generation or modification was attempted.
-```
+禁止手绘 Header、菜单、筛选、表格或分页来绕过映射。未知信息标记 PENDING，不推断为已存在。
 
 ## Reference routing
 
@@ -69,7 +63,7 @@ pagination / data / state
 2. 读取平台基线和页面规则，形成唯一 PageSpec，不补造菜单树或组件 ID。
 3. 按组件映射建立解析清单，逐项标记 `resolved / missing / ambiguous / failed`。
 4. 若任一必需项不是 `resolved`，返回 `BLOCKED`，不写 Figma。
-5. Readiness 未来切换为 ready 后，按 Header → Side navigation → Tabs → Filter → Table area（可选标题、操作、表格、分页）顺序创建真实实例。
+5. 按 Header → Side navigation → Tabs → Filter → Table area（可选标题、操作、表格、分页）顺序创建真实实例。
 6. 每次属性设置均执行“读取真实 Key → 校验类型和值域 → 写入 → 回读”；Slot 与 Instance swap 同样回读。
 7. 按结构验收完成树结构检查，再截图检查整页；两者都 PASS 才可交付完成。
 
@@ -100,6 +94,6 @@ pagination / data / state
 - 直接缩短根画板却不建立侧栏滚动视口，导致当前选中菜单在 1366px × 768px 视口中不可见。
 - 展开不属于当前路径的菜单，或让选中页签与当前菜单不一致。
 
-## Exit condition
+## Delivery
 
-仅当 `component-map.md` 中所有 P0 项解析完成、契约校验通过、完整页面结构回读与截图验收通过，并由用户确认后，才可把 `readiness=draft` 改为 `readiness=ready`。
+返回版本、目标 Page 与画板链接、属性回读及结构与视觉验收结果；只有当次页面结构和视觉均 PASS 才宣称完成。

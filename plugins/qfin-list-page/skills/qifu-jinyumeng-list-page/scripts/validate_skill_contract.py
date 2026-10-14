@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the qifu-jinyumeng-list-page 0.7.2 draft acceptance-trial contract."""
+"""Validate the qifu-jinyumeng-list-page 1.0.0 draft acceptance-trial contract."""
 
 from __future__ import annotations
 
@@ -140,8 +140,8 @@ REFERENCE_REQUIREMENTS = {
         "上一页箭头向左",
         "下一页箭头向右",
         "筛选项与操作组按同一列宽数组定位",
-        "acceptanceTrial=true",
-        "目标 Page ID = `5037:8717`",
+        "structuralValidation",
+        "目标 Page ID 由用户指定",
         "PENDING",
         "不得猜测",
     ),
@@ -209,7 +209,7 @@ APPROVED_NODE_IDS = {
     "3621:45",
     "5037:8717",
 }
-APPROVED_PIXEL_VALUES = {"4px", "14px", "16px", "20px", "28px", "32px", "48px", "52px", "56px", "76px", "240px", "1366px"}
+APPROVED_PIXEL_VALUES = {"4px", "14px", "16px", "20px", "28px", "32px", "48px", "52px", "56px", "76px", "240px", "768px", "1366px"}
 APPROVED_HEX_COLORS = {"#121736", "#595C72"}
 APPROVED_VARIABLE_TOKENS = {
     "--qifu-border-color-default",
@@ -307,14 +307,16 @@ def validate(skill_root: Path) -> list[str]:
         validate_frontmatter(skill_text, errors)
         for required in (
             "platform=jinyumeng",
-            "readiness=draft",
-            "除受限验收试生成外，生成或修改 Figma 页面请求必须停止",
+            "readiness=ready",
+            "只有结构和视觉均为 PASS",
+            "组件调用或验收失败返回 FAIL",
+            "目标 Page 由用户指定",
             "DEFERRED 反馈状态",
             "CONFIRMED 完整组件映射",
-            "PENDING 完整验收",
-            "acceptance_trial",
-            "测试qifu-jinyumeng-list-page skill",
-            "`5037:8717`",
+            "结构和视觉均为 PASS",
+            "不要求 acceptance_trial",
+            "保护无关已有内容",
+            "readiness=ready",
             "不得回退到 `qifu-yushu-list-page`、`qifu-list-page`",
             "禁止手绘占位",
         ):
@@ -324,8 +326,8 @@ def validate(skill_root: Path) -> list[str]:
     version = texts.get("VERSION", "").strip()
     if version and not SEMVER.fullmatch(version):
         errors.append("VERSION: expected semantic version")
-    if version != "0.7.2":
-        errors.append("VERSION: expected 0.7.2")
+    if version != "1.0.0":
+        errors.append("VERSION: expected 1.0.0")
 
     metadata = texts.get("agents/openai.yaml", "")
     for required in ('display_name: "Qifu Jinyumeng List Page"', "$qifu-jinyumeng-list-page", "@figma"):
@@ -363,7 +365,7 @@ def main(argv: list[str]) -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("PASS qifu-jinyumeng-list-page 0.7.2 (draft+acceptance_trial)")
+    print("PASS qifu-jinyumeng-list-page 1.0.0 (ready)")
     return 0
 
 

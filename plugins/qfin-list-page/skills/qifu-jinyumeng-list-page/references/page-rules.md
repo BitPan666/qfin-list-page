@@ -6,6 +6,10 @@ User-confirmed rules and read-only inspection of the `SideMenu 侧边菜单` pag
 
 ## Page shell and content surfaces
 
+- 未特别说明时，桌面端画板默认宽 `1366px`、高 `768px`。用户明确指定其他尺寸或高度按完整内容调整时，以用户要求为准；仅指定其中一个维度时，另一维度保留默认值。
+- 默认固定视口下，内容超高通过业务内容区内部纵向滚动承载；筛选展开不撑高外层画板，不压缩字体、控件或表格行高。保留完整内容与可滚动到达的分页，不以裁切隐藏内容代替滚动；分页是否固定按用户要求处理。
+- 表格 Shell 的完整内容高度与外层画板视口高度分别计算，完整内容高度不得反向撑大固定视口。
+
 - The platform shell uses a light-blue background. The top navigation and sidebar sit directly on this platform background.
 - The right-side business regions use a 白色内容承载面. This includes the filter region, an optional standalone list-operation region, and the table region.
 - Every right-side content surface starts at 侧边栏右侧 `20px` and ends at 视口右侧 `20px`.
@@ -73,7 +77,7 @@ In the inspected example, the input control is 240px wide while the label-plus-c
 
 ### Dynamic columns and widths
 
-- For a `1366px` bounded acceptance trial whose goal is 整体效果, 整体效果验收默认使用 `5–8` 个业务字段. 选择列不计入 this count; keep only representative name, ID, role/status, and operation fields unless the prompt explicitly requests a larger data contract.
+- For a `1366px` list page whose goal is 整体效果, 整体效果验收默认使用 `5–8` 个业务字段. 选择列不计入 this count; keep only representative name, ID, role/status, and operation fields unless the prompt explicitly requests a larger data contract.
 - Build columns from `columns[]`. Header and every data row use the same column order and 表头与每行使用同一列宽数组; do not use `SPACE_BETWEEN` to fake alignment.
 - Width resolution is deterministic: first use an explicit `columns[].width`. For every remaining non-elastic column, measure 表头与样例单元格内容的最大固有宽度 plus the real component padding. Give all 剩余宽度 to the long-text 弹性列, split equally when several elastic columns exist.
 - If no elastic column exists, distribute remaining width equally across name columns; if none exist, give it to the last non-action column. If intrinsic widths already exceed the surface, keep them 不压缩 and set the scroll container's 内容总宽度 to their sum.
@@ -88,4 +92,4 @@ In the inspected example, the input control is 240px wide while the label-plus-c
 - Do not generate or evaluate a feedback state until a later explicit requirement confirms that scope.
 - 不得猜测 any deferred feedback-state behavior.
 
-Formal business-page construction remains blocked until the bounded acceptance trial passes; the exact trial may use the confirmed normal-data rules above.
+正式列表页可按用户指定目标创建；每次执行完整结构与视觉验收。

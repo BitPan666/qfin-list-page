@@ -36,14 +36,14 @@ class YushuSkillIdentityTest(unittest.TestCase):
         self.assertIn("@figma", metadata)
         self.assertIn("显式多选框", metadata)
 
-    def test_frozen_yushu_references_match_1_3_2_baseline(self) -> None:
+    def test_frozen_yushu_references_match_1_3_3_baseline(self) -> None:
         expected = {
-            "VERSION": "33158972a53877b421cfe2598b8d93cab169963a4964b45ee889e85349979018",
-            "references/component-invocation-contract.md": "a1e94bf953fbbb8a238ebfedf6ef7136434a1b9577c9a709780728828a63c074",
-            "references/component-map.md": "cea84bd6ccf63e6df0139edc2f7627ef527c82fb4f33d7c06878550e82075b1a",
+            "VERSION": "a74a0cf84ef0b15e01e64746c3465813312b763796f4f6362b092f092dccb8b5",
+            "references/component-invocation-contract.md": "7f3f431a1b490281405025c3cb8fc74f12c893c5f9944f0579bd7c0ffaf7b083",
+            "references/component-map.md": "4c7f0cf39ee0a10f37b57dadc22befc03959cb97bb8de343be17ee2de6e5853e",
             "references/page-rules.md": "01f763f3c5631dba4fd503c7bd0d0eba1a811f7138e0bc265f8626eae8192875",
             "references/platform-yushu.md": "3de50b89e2f0df8375435923e81a77f0e40f70aa4d84672f5d57be15dc02a595",
-            "references/structural-validation.md": "47c07269282e6ce500049dc9948cf59c01142586a3ccdae85b97ef63105957f9",
+            "references/structural-validation.md": "c59fb5a3f0e57cd8ade62225784e8b8e56215ab642722a1f1b31533bb2a123a9",
         }
 
         for relative_path, expected_hash in expected.items():
