@@ -107,6 +107,22 @@ git tag -a v0.1.1 -m "qfin-list-page plugin v0.1.1"
 
 是否推送提交与标签始终由维护者手工决定。
 
+## 只恢复一个 Skill
+
+已发布的单个 Skill 出现问题时，先从一个正式 Git 标签预览将要恢复的行为：
+
+```bash
+python3 scripts/rollback_skill.py --skill yushu --to v0.1.0
+```
+
+确认文件增删、内容和权限位差异后再执行：
+
+```bash
+python3 scripts/rollback_skill.py --skill yushu --to v0.1.0 --apply
+```
+
+apply 会先备份到 `.qfin-backups/<timestamp>/`，只恢复目标 Skill 的行为文件，并保留当前 `VERSION`。完成后必须按脚本输出的 `release.py --component <alias> --bump patch` 命令发布一个更高的新版本，不能复用历史版本号。
+
 ## 完整验证
 
 ```bash
