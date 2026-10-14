@@ -74,6 +74,39 @@ codex plugin add qfin-list-page@qfin-list-page
 
 本地开发如果需要强制绕过旧缓存，请使用一个新的 patch `version` 作为 `cachebuster`，再执行 remove/add。不要在既有本地 Plugin 更新循环中手工修改 marketplace JSON；该文件也是仓库受控配置。
 
+## 准备新版本
+
+`release.py` 只接受已声明且实际发生修改的组件。所有公开命令默认是 dry-run；只有显式加上 `--apply` 才会写入版本文件。
+
+先预览版本变化、Changelog 和校验命令：
+
+```bash
+python3 scripts/release.py \
+  --component yushu \
+  --bump patch \
+  --note "统一筛选区规则"
+```
+
+确认预览无误后再写入发布元数据并执行校验：
+
+```bash
+python3 scripts/release.py \
+  --component yushu \
+  --bump patch \
+  --note "统一筛选区规则" \
+  --apply
+```
+
+脚本不会自动提交、打标签或推送。校验通过后需要人工检查差异，然后手工执行：
+
+```bash
+git add <reviewed-files>
+git commit -m "release: qfin-list-page v0.1.1"
+git tag -a v0.1.1 -m "qfin-list-page plugin v0.1.1"
+```
+
+是否推送提交与标签始终由维护者手工决定。
+
 ## 完整验证
 
 ```bash
