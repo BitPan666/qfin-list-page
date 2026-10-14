@@ -1,11 +1,23 @@
 import json
+import os
+import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.release import apply_release, detect_changed_components, main, plan_release
+from scripts.release import (
+    _validation_commands,
+    apply_release,
+    detect_changed_components,
+    main,
+    plan_release,
+)
 from scripts.versioning_lib import COMPONENTS
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseTests(unittest.TestCase):
@@ -203,6 +215,62 @@ class ReleaseTests(unittest.TestCase):
         )
         self.assertEqual(self.run_git(root, "rev-parse", "HEAD"), head)
         self.assertEqual(self.run_git(root, "tag", "--list"), "")
+
+    def test_next_release_still_passes_repository_version_contracts(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        released = Path(temporary.name) / "released"
+        shutil.copytree(
+            REPO_ROOT,
+            released,
+            ignore=shutil.ignore_patterns(
+                ".git",
+                ".superpowers",
+                "__pycache__",
+                "*.pyc",
+                ".release-worktrees",
+                ".qfin-backups",
+            ),
+        )
+        self.run_git(released, "init", "-b", "main")
+        self.run_git(released, "config", "user.name", "Test")
+        self.run_git(released, "config", "user.email", "test@example.com")
+        self.run_git(released, "add", ".")
+        self.run_git(released, "commit", "-m", "baseline")
+        self.edit_component(released, "yushu", "next release\n")
+        plan = plan_release(released, ("yushu",), "patch", "Next release")
+        apply_release(released, plan)
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "unittest",
+                "tests.test_plugin_layout",
+                "tests.test_version_manifest",
+                "-v",
+            ],
+            cwd=released,
+            capture_output=True,
+            text=True,
+            check=False,
+            env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_release_validation_plan_uses_tools_available_in_the_current_environment(self):
+        commands = _validation_commands(REPO_ROOT, ("yushu",))
+        missing: list[str] = []
+        for command in commands:
+            if shutil.which(command[0]) is None:
+                missing.append(command[0])
+            for argument in command[1:]:
+                path = Path(argument)
+                if path.is_absolute() and argument.endswith(".py") and not path.is_file():
+                    missing.append(argument)
+
+        self.assertEqual(missing, [])
 
 
 if __name__ == "__main__":

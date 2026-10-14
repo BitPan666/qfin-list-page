@@ -9,15 +9,17 @@ MANIFEST_PATH = PLUGIN_ROOT / ".codex-plugin" / "plugin.json"
 MARKETPLACE_PATH = REPO_ROOT / ".agents" / "plugins" / "marketplace.json"
 README_PATH = REPO_ROOT / "README.md"
 INTEGRITY_PATH = REPO_ROOT / "docs" / "import-integrity-2026-10-13.md"
+VERSIONS_PATH = REPO_ROOT / "versions.json"
 
 
 class PluginLayoutTests(unittest.TestCase):
     def test_plugin_manifest_contract(self):
         self.assertTrue(MANIFEST_PATH.is_file(), f"missing {MANIFEST_PATH}")
         manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+        versions = json.loads(VERSIONS_PATH.read_text(encoding="utf-8"))
 
         self.assertEqual(manifest["name"], "qfin-list-page")
-        self.assertEqual(manifest["version"], "0.1.0")
+        self.assertEqual(manifest["version"], versions["pluginVersion"])
         self.assertEqual(manifest["skills"], "./skills/")
         for forbidden_key in ("apps", "mcpServers", "hooks"):
             self.assertNotIn(forbidden_key, manifest)

@@ -90,7 +90,7 @@ git diff 26051cf -- \
 
 | 检查 | 结果 |
 | --- | --- |
-| 仓库级测试 | 36/36 PASS |
+| 仓库级测试 | 38/38 PASS |
 | 路由 Skill 测试 | 9/9 PASS |
 | 路由契约校验 | `PASS qfin-list-page 0.1.0` |
 | 官方 Skill 校验器 | `Skill is valid!` |

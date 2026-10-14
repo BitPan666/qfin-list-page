@@ -295,19 +295,15 @@ def _validation_commands(repo_root: Path, components: tuple[str, ...]) -> list[l
                 ],
             ]
         )
-    plugin_validator = (
-        Path.home()
-        / ".codex/skills/.system/plugin-creator/scripts/validate_plugin.py"
-    )
     commands.append(
         [
-            "uv",
-            "run",
-            "--with",
-            "pyyaml",
-            "python",
-            str(plugin_validator),
-            str(root / "plugins/qfin-list-page"),
+            "codex",
+            "plugin",
+            "list",
+            "--marketplace",
+            "qfin-list-page",
+            "--available",
+            "--json",
         ]
     )
     return commands

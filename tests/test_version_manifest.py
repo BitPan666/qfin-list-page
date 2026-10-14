@@ -8,6 +8,7 @@ from scripts.versioning_lib import (
     COMPONENTS,
     SemVer,
     load_version_state,
+    read_versions_json,
     snapshot_component_trees,
     validate_version_state,
 )
@@ -77,14 +78,15 @@ class VersionManifestTests(unittest.TestCase):
 
     def test_published_repository_versions_match_every_source(self):
         state = load_version_state(REPO_ROOT)
-        self.assertEqual(str(state.plugin), "0.1.0")
+        lock = read_versions_json(REPO_ROOT)
+        raw_components = lock["components"]
+        self.assertIsInstance(raw_components, dict)
+        self.assertEqual(str(state.plugin), lock["pluginVersion"])
         self.assertEqual(
             {alias: str(version) for alias, version in state.components.items()},
             {
-                "router": "0.1.0",
-                "yushu": "1.3.2",
-                "jinyumeng": "0.7.2",
-                "dianxiao": "0.1.0",
+                alias: raw_components[directory]
+                for alias, directory in COMPONENTS.items()
             },
         )
         self.assertEqual(validate_version_state(REPO_ROOT), [])
