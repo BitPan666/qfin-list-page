@@ -123,6 +123,31 @@ python3 scripts/rollback_skill.py --skill yushu --to v0.1.0 --apply
 
 apply 会先备份到 `.qfin-backups/<timestamp>/`，只恢复目标 Skill 的行为文件，并保留当前 `VERSION`。完成后必须按脚本输出的 `release.py --component <alias> --bump patch` 命令发布一个更高的新版本，不能复用历史版本号。
 
+## 临时安装整个 Plugin 的历史版本
+
+整个 Plugin 需要临时止损时，先预览指定正式标签的四个组件版本、安装命令和自动恢复方案：
+
+```bash
+python3 scripts/install_version.py --tag v0.1.0
+```
+
+确认后才执行历史安装：
+
+```bash
+python3 scripts/install_version.py --tag v0.1.0 --apply
+```
+
+脚本会在 `.release-worktrees/<tag>` 建立 detached worktree，校验完整历史快照后才切换 marketplace 和 Plugin。任一 Codex 命令失败时会自动恢复原仓库安装。安装成功后必须新建 Codex 任务验证。
+
+恢复当前 `main` 仓库版本：
+
+```bash
+python3 scripts/install_version.py --restore-current
+python3 scripts/install_version.py --restore-current --apply
+```
+
+历史 worktree 不会被脚本自动删除，也不会影响其他 worktree。恢复当前版本并人工确认后，可按脚本输出的精确 `git worktree remove .release-worktrees/<tag>` 命令清理指定目录。
+
 ## 完整验证
 
 ```bash
