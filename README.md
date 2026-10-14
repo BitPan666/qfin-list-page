@@ -15,10 +15,10 @@ Plugin 内含四个彼此独立的 Skill：
 
 ## 从 GitHub 安装
 
-将下面的 `owner/qfin-list-page` 替换为实际 GitHub 仓库地址：
+从公开 GitHub 仓库安装：
 
 ```bash
-codex plugin marketplace add owner/qfin-list-page --ref main
+codex plugin marketplace add BitPan666/qfin-list-page --ref main
 codex plugin add qfin-list-page@qfin-list-page
 ```
 
