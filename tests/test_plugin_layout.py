@@ -42,7 +42,7 @@ class PluginLayoutTests(unittest.TestCase):
             {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
         )
 
-    def test_complete_plugin_contains_exactly_four_skills(self):
+    def test_complete_plugin_contains_exactly_six_skills(self):
         skills_root = PLUGIN_ROOT / "skills"
         actual = {path.name for path in skills_root.iterdir() if path.is_dir()}
         self.assertEqual(
@@ -52,6 +52,8 @@ class PluginLayoutTests(unittest.TestCase):
                 "qifu-yushu-list-page",
                 "qifu-jinyumeng-list-page",
                 "qifu-dianxiao-list-page",
+                "qifu-zhikexing-list-page",
+                "qifu-zhineng-yunying-list-page",
             },
         )
 

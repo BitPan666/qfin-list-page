@@ -177,7 +177,7 @@ def _render_changelog_section(plan: ReleasePlan) -> str:
     ]
     unchanged = [
         f"`{COMPONENTS[alias]}` `{plan.current.components[alias]}`"
-        for alias in COMPONENTS
+        for alias in plan.current.components
         if alias not in plan.components
     ]
     lines = [
@@ -224,7 +224,7 @@ def apply_release(repo_root: Path, plan: ReleasePlan) -> None:
             "pluginVersion": str(plan.target.plugin),
             "components": {
                 directory: str(plan.target.components[alias])
-                for alias, directory in COMPONENTS.items()
+                for alias, directory in COMPONENTS.items() if alias in plan.target.components
             },
         }
         (root / "versions.json").write_text(
@@ -311,7 +311,7 @@ def _validation_commands(repo_root: Path, components: tuple[str, ...]) -> list[l
 
 def _print_plan(plan: ReleasePlan, repo_root: Path) -> None:
     print(f"Plugin: {plan.current.plugin} -> {plan.target.plugin}")
-    for alias in COMPONENTS:
+    for alias in plan.current.components:
         print(
             f"{alias}: {plan.current.components[alias]} -> {plan.target.components[alias]}"
         )

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 - 2026-10-28
+
+- Add independent Zhikexing and SmartOps list adapters 0.1.0 with per-run preflight and read-only plan CLIs.
+- Router 0.2.0 covers all five platforms and preserves child readiness.
+- Version/release/rollback tools recognize six current components and retain four-component historical release support.
+- Original Yushu, Jinyumeng and Dianxiao child trees remain unchanged.
+
 ## 0.1.2 — 2026-10-28
 
 - Router payload `0.1.0` → `0.1.1`：新增五平台离线资产注册、验证器和变异测试；运行时仍仅路由毓数、金毓盟、电销。

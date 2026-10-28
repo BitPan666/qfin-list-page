@@ -27,6 +27,8 @@ class RouterContractTests(unittest.TestCase):
                 "yushu": "../qifu-yushu-list-page/SKILL.md",
                 "jinyumeng": "../qifu-jinyumeng-list-page/SKILL.md",
                 "dianxiao": "../qifu-dianxiao-list-page/SKILL.md",
+                "zhikexing": "../qifu-zhikexing-list-page/SKILL.md",
+                "zhineng-yunying": "../qifu-zhineng-yunying-list-page/SKILL.md",
             },
         )
         for relative_path in ROUTES.values():
@@ -75,7 +77,7 @@ class RouterContractTests(unittest.TestCase):
         self.assertEqual(first_non_empty, "@figma")
         self.assertIn("qfin-list-page", text)
         self.assertIn("目标平台", text)
-        self.assertIn("目标平台（必填，三选一）：毓数 / 金毓盟 / 电销", text)
+        self.assertIn("目标平台（必填，五选一）：毓数 / 金毓盟 / 电销 / 智客星 / 智能运营", text)
         self.assertNotIn("app://", text)
 
     def test_openai_metadata_contract(self):

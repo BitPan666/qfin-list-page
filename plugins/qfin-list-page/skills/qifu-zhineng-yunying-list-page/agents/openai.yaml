@@ -1,0 +1,6 @@
+interface:
+  display_name: "Qifu SmartOps List Page"
+  short_description: "生成智能运营桌面列表页，复用独立外壳并逐次检查组件与样式"
+  default_prompt: "使用 $qifu-zhineng-yunying-list-page 生成智能运营列表页。"
+policy:
+  allow_implicit_invocation: true

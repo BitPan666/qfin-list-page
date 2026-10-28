@@ -12,6 +12,8 @@ ROUTES = {
     "yushu": "../qifu-yushu-list-page/SKILL.md",
     "jinyumeng": "../qifu-jinyumeng-list-page/SKILL.md",
     "dianxiao": "../qifu-dianxiao-list-page/SKILL.md",
+    "zhikexing": "../qifu-zhikexing-list-page/SKILL.md",
+    "zhineng-yunying": "../qifu-zhineng-yunying-list-page/SKILL.md",
 }
 
 ERROR_CODES = (
@@ -113,7 +115,7 @@ def validate(skill_root: Path) -> list[str]:
             errors.append("prompt template must start with @figma")
         if "$qfin-list-page" not in prompt:
             errors.append("prompt template must invoke $qfin-list-page")
-        if "目标平台（必填，三选一）：毓数 / 金毓盟 / 电销" not in prompt:
+        if "目标平台（必填，五选一）：毓数 / 金毓盟 / 电销 / 智客星 / 智能运营" not in prompt:
             errors.append("prompt template must require one supported platform")
         if "app://" in prompt:
             errors.append("prompt template must not hard-code a connector ID")

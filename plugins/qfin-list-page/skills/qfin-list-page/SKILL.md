@@ -1,6 +1,6 @@
 ---
 name: qfin-list-page
-description: Use when creating, updating, or auditing a standard QFIN desktop data list page for the Yushu, Jinyumeng, or Dianxiao platform and the request must be routed to exactly one platform-specific Skill.
+description: Use when creating, updating, or auditing a standard QFIN desktop data list page for the Yushu, Jinyumeng, Dianxiao, Zhikexing, or SmartOps platform and the request must be routed to exactly one platform-specific Skill.
 ---
 
 # QFIN List Page Router
@@ -14,6 +14,9 @@ This Skill is the single entry point for standard QFIN desktop data list-page cr
 | `yushu` | `yushu`, `毓数` | [`qifu-yushu-list-page`](../qifu-yushu-list-page/SKILL.md) |
 | `jinyumeng` | `jinyumeng`, `金毓盟` | [`qifu-jinyumeng-list-page`](../qifu-jinyumeng-list-page/SKILL.md) |
 | `dianxiao` | `dianxiao`, `电销`, `电销平台` | [`qifu-dianxiao-list-page`](../qifu-dianxiao-list-page/SKILL.md) |
+
+| `zhikexing` | `zhikexing`, `智客星` | [`qifu-zhikexing-list-page`](../qifu-zhikexing-list-page/SKILL.md) |
+| `zhineng-yunying` | `zhineng-yunying`, `smartops`, `智能运营` | [`qifu-zhineng-yunying-list-page`](../qifu-zhineng-yunying-list-page/SKILL.md) |
 
 There is no default platform. Never default to Yushu or infer a platform from visual similarity.
 
@@ -41,11 +44,15 @@ Before routing, retain this context without rewriting the user's request:
 
 ## Fail-closed routing errors
 
-- `PLATFORM_REQUIRED`: no explicit or uniquely confirmed supported platform is available. Ask the user to choose 毓数、金毓盟或电销.
+- `PLATFORM_REQUIRED`: no explicit or uniquely confirmed supported platform is available. Ask the user to choose 毓数、金毓盟、电销、智客星或智能运营.
 - `PLATFORM_CONFLICT`: the request or confirmed context identifies more than one supported platform. Ask the user to select exactly one.
-- `UNSUPPORTED_PLATFORM`: an explicit platform value is present but is not `yushu`, `jinyumeng`, or `dianxiao`. Stop without substituting another platform.
+- `UNSUPPORTED_PLATFORM`: an explicit platform value is present but is not `yushu`, `jinyumeng`, `dianxiao`, `zhikexing`, or `zhineng-yunying`. Stop without substituting another platform.
 - `CHILD_SKILL_MISSING`: the selected child `SKILL.md` cannot be resolved. Stop; no fallback to another child is allowed.
 
 ## Boundary
 
 This router must not define platform component IDs, navigation structures, menu definitions, PageSpec fields, Figma generation instructions, or platform-specific validation rules. Those remain entirely inside the selected child Skill.
+
+## Runtime readiness
+
+The route map above is current. The historical 2026-10-28 foundation asset snapshot records the three routes available at that earlier checkpoint; it does not override this route map. The two new child Skills require per-run source, style, theme, structure and screenshot preflight. A selected route or a valid offline plan does not upgrade child readiness.

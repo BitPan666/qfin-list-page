@@ -1,6 +1,6 @@
 # 五平台资产事实（2026-10-28）
 
-`platform-assets.json` 是本插件载荷内的离线资产登记，独立于现有三平台路由。仅登记新增平台不会创建子 Skill、启用路由或证明生成通过。原三平台 Skill 的规则与版本保留；本轮没有修改 Figma。
+`platform-assets.json` 是上一基础检查点的历史离线资产登记，包含当时的三平台路由事实；当前路由以父Skill的五平台表为准。资产快照不因新增Adapter被追溯改写。仅登记新增平台不会创建子 Skill、启用路由或证明生成通过。原三平台 Skill 的规则与版本保留；本轮没有修改 Figma。
 
 | 平台 | 核查外壳 / 内容 | Header 来源 | 菜单母组件集 | 运行时 |
 | --- | --- | --- | --- | --- |
@@ -19,3 +19,5 @@ Header 的 `width` / `height` 对 COMPONENT_SET 表示 Header 变体尺寸，不
 基础集合 `VariableCollectionId:9:8` 中核查到毓数 `9:6`、金毓盟 `4717:0`、电销 `5722:0`、智能运营 `2158:0`。智客星没有专属 Mode；登记 `modeId=null` 与 `inherit-verified-template-bindings`，另记候选观测继承值 `9:6`，这不授权为其设置毓数显式 Mode，也不构成跨平台兜底。现有历史 Token 全量快照未被本登记覆盖。
 
 运行 `python3 scripts/validate_platform_assets.py`（相对本 Skill 目录），或加 `--registry PATH` 检查副本。验证器固定本次核查的来源、类型、尺寸、状态和内容策略，拒绝跨平台替换和候选误升级；不连 Figma，不验证未来页面。`audit.evidenceSha256` 关联原只读证据文件，属于溯源元数据，不是运行时联网校验。将来修改固定事实需要新的核查和版本迭代。
+
+当前新增两子Skill为preflight-required，均已建立独立生成规则与计划器；逐次结果仍须结构和截图验收。历史表中的pending-adapter描述仅对应基础迭代当时状态。

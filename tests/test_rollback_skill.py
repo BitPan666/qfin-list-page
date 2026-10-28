@@ -41,6 +41,8 @@ class RollbackSkillTests(unittest.TestCase):
             "qifu-yushu-list-page": "1.3.2",
             "qifu-jinyumeng-list-page": "0.7.2",
             "qifu-dianxiao-list-page": "0.1.0",
+            "qifu-zhikexing-list-page": "0.1.0",
+            "qifu-zhineng-yunying-list-page": "0.1.0",
         }
         for alias, directory in COMPONENTS.items():
             if alias == missing_historical_skill:

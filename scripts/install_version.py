@@ -15,6 +15,7 @@ if __package__ in (None, ""):
 
 from scripts.versioning_lib import (  # noqa: E402
     COMPONENTS,
+    component_map,
     CommandResult,
     SemVer,
     VersionState,
@@ -87,14 +88,16 @@ def _historical_state(repo_root: Path, tag: str, runner: Runner) -> VersionState
     if not isinstance(lock, dict) or lock.get("schemaVersion") != 1:
         raise ValueError(f"historical versions.json is malformed at {tag}")
     raw_components = lock.get("components")
-    if not isinstance(raw_components, dict) or set(raw_components) != set(COMPONENTS.values()):
-        raise ValueError(f"historical versions.json component set is invalid at {tag}")
+    try:
+        mapping = component_map(raw_components)
+    except ValueError as error:
+        raise ValueError(f"historical versions.json component set is invalid at {tag}") from error
     try:
         state = VersionState(
             plugin=SemVer.parse(lock["pluginVersion"]),
             components={
                 alias: SemVer.parse(raw_components[directory])
-                for alias, directory in COMPONENTS.items()
+                for alias, directory in mapping.items()
             },
         )
     except (KeyError, ValueError, TypeError) as error:
@@ -130,7 +133,7 @@ def _historical_state(repo_root: Path, tag: str, runner: Runner) -> VersionState
     if manifest.get("name") != "qfin-list-page" or manifest.get("version") != str(state.plugin):
         raise ValueError(f"historical Plugin manifest does not match versions.json at {tag}")
 
-    for alias, directory in COMPONENTS.items():
+    for alias, directory in mapping.items():
         version_path = f"plugins/qfin-list-page/skills/{directory}/VERSION"
         try:
             disk_version = SemVer.parse(_tag_file(repo_root, tag, version_path, runner).strip())
@@ -321,7 +324,7 @@ def _print_plan(plan: InstallPlan) -> None:
     print(f"Tag: {plan.tag}")
     print(f"Historical worktree: {plan.worktree_path}")
     print(f"Plugin: {plan.historical_state.plugin}")
-    for alias in COMPONENTS:
+    for alias in plan.historical_state.components:
         print(f"{alias}: {plan.historical_state.components[alias]}")
     print(
         f"Current install: {plan.original_plugin_version} from {plan.original_marketplace_path}"

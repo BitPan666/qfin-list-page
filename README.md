@@ -237,3 +237,7 @@ UV_CACHE_DIR=/private/tmp/qfin-uv-cache PYTHONDONTWRITEBYTECODE=1 \
 ```
 
 三个平台子 Skill 的测试、契约版本和原样导入结果见 [`docs/import-integrity-2026-10-13.md`](docs/import-integrity-2026-10-13.md)。
+
+## 五平台生成适配迭代 0.2.0
+
+新增智客星、智能运营两个独立列表子Skill，router选择五平台之一。新Adapter为preflight-required，逐次检查真实组件、来源、样式、主题、结构和截图，不能把离线计划当生成通过。原三子Skill字节保留。当前版本清单有router+五子Skill共六项；历史四组件tag仍可由安装工具恢复。新增版本发布应通过release.py --component zhikexing或--component zhineng-yunying检查相应子Skill；本轮未安装缓存或创建正式发布tag。

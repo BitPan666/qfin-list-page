@@ -16,12 +16,24 @@ from scripts.compare_skill_trees import FileRecord, build_manifest
 PLUGIN_ROOT = Path("plugins/qfin-list-page")
 PLUGIN_MANIFEST = PLUGIN_ROOT / ".codex-plugin" / "plugin.json"
 SKILLS_ROOT = PLUGIN_ROOT / "skills"
-COMPONENTS = {
+LEGACY_COMPONENTS = {
     "router": "qfin-list-page",
     "yushu": "qifu-yushu-list-page",
     "jinyumeng": "qifu-jinyumeng-list-page",
     "dianxiao": "qifu-dianxiao-list-page",
 }
+COMPONENTS = {**LEGACY_COMPONENTS, 'zhikexing': 'qifu-zhikexing-list-page', 'zhineng-yunying': 'qifu-zhineng-yunying-list-page'}
+
+
+def component_map(raw_components):
+    if not isinstance(raw_components, dict):
+        raise ValueError('versions.json components must be an object')
+    for mapping in (COMPONENTS, LEGACY_COMPONENTS):
+        if set(raw_components) == set(mapping.values()):
+            return mapping
+    raise ValueError('versions.json components do not match a supported component set')
+
+
 _SEMVER_PATTERN = re.compile(r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\Z")
 
 
@@ -81,14 +93,12 @@ def load_version_state(repo_root: Path) -> VersionState:
     component_data = data.get("components")
     if not isinstance(component_data, dict):
         raise ValueError("versions.json components must be an object")
-    expected = set(COMPONENTS.values())
-    if set(component_data) != expected:
-        raise ValueError("versions.json components do not match the required component set")
+    mapping = component_map(component_data)
 
     plugin = SemVer.parse(data.get("pluginVersion"))  # type: ignore[arg-type]
     components = {
         alias: SemVer.parse(component_data[directory])  # type: ignore[arg-type]
-        for alias, directory in COMPONENTS.items()
+        for alias, directory in mapping.items()
     }
     return VersionState(plugin=plugin, components=components)
 
@@ -125,7 +135,8 @@ def validate_version_state(repo_root: Path) -> list[str]:
     except ValueError:
         errors.append(f"versions.json pluginVersion is invalid: {raw_plugin!r}")
 
-    expected_directories = set(COMPONENTS.values())
+    mapping = COMPONENTS if any((root / SKILLS_ROOT / directory).exists() for alias, directory in COMPONENTS.items() if alias not in LEGACY_COMPONENTS) else LEGACY_COMPONENTS
+    expected_directories = set(mapping.values())
     raw_components = lock.get("components")
     parsed_components: dict[str, SemVer] = {}
     if not isinstance(raw_components, dict):
@@ -139,7 +150,7 @@ def validate_version_state(repo_root: Path) -> list[str]:
         if extra:
             errors.append(f"versions.json components extra: {', '.join(extra)}")
 
-    for alias, directory in COMPONENTS.items():
+    for alias, directory in mapping.items():
         if directory not in raw_components:
             continue
         raw_version = raw_components[directory]
@@ -162,7 +173,7 @@ def validate_version_state(repo_root: Path) -> list[str]:
                     f"versions.json={lock_plugin} plugin.json={manifest_version}"
                 )
 
-    for alias, directory in COMPONENTS.items():
+    for alias, directory in mapping.items():
         version_path = root / SKILLS_ROOT / directory / "VERSION"
         try:
             raw_version = version_path.read_text(encoding="utf-8").strip()
@@ -197,7 +208,7 @@ def snapshot_component_trees(
     return {
         alias: build_manifest(root / SKILLS_ROOT / directory)
         for alias, directory in COMPONENTS.items()
-        if alias not in excluded
+        if alias not in excluded and alias in load_version_state(root).components
     }
 
 
