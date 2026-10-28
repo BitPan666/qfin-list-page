@@ -15,7 +15,7 @@ Plugin 内含四个彼此独立的 Skill：
 
 ## 新电脑安装：从 GitHub 获取
 
-适用于首次安装的电脑。QFIN List Page 提供生成规范；实际读写 Figma 需要另行安装并授权 Figma 插件。当前发布版本为 **0.1.1**，包含毓数 1.3.3、金毓盟 1.0.0、电销 1.0.0。
+适用于首次安装的电脑。QFIN List Page 提供生成规范；实际读写 Figma 需要另行安装并授权 Figma 插件。当前源码版本为 **0.1.2**，包含毓数 1.3.3、金毓盟 1.0.0、电销 1.0.0。
 
 ### 方式一：让 Codex 协助安装
 
@@ -82,6 +82,18 @@ codex plugin add qfin-list-page@qfin-list-page
 @figma
 使用 $qfin-list-page 为电销平台更新线索分配列表页，保留现有导航并按以下字段调整：……
 ```
+
+## 五平台资产基础登记（0.1.2）
+
+[资产注册表](plugins/qfin-list-page/skills/qfin-list-page/references/platform-assets.json) 记录 2026-10-28 已核查的节点、内容装配边界与平台 Mode；[资产说明](plugins/qfin-list-page/skills/qfin-list-page/references/platform-assets.md) 解释字段和限制。当前生成入口仍为上述三个平台。智客星、智能运营均登记为 `pending-adapter`，不能通过注册表启用路由或替代为其他平台。
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 \
+  plugins/qfin-list-page/skills/qfin-list-page/scripts/validate_platform_assets.py
+# 也可使用 --registry /absolute/path/to/platform-assets.json 校验候选副本
+```
+
+该命令只做离线资产事实校验。新增页面尚未生成或验收；旧智客星模板不能作为已验证默认值，智能运营应保留 Frame 外壳并在副本中创建内容容器。通过 `python3 scripts/iteration_timeline.py --repo . --before '2026-10-28T22:49:16+08:00'` 查询带时区时间点的源码检查点与新恢复分支建议；查询不会修改工作区。版本分支、测试记录和按时间恢复方式见[本轮迭代记录](docs/iterations/2026-10-28-five-platform-foundation.md)。
 
 ## 维护原则
 

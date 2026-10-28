@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "audit": {
+    "date": "2026-10-28",
+    "timezone": "Asia/Shanghai",
+    "fileKey": "gTV3VdC6a5e9vpkRHIZSXA",
+    "scope": "asset-facts-only",
+    "evidenceFile": "five-platform-asset-audit.json",
+    "evidenceSha256": "7b7f5ef15de5c605f279265c35dc529f434108fa0f0202463ea89254ab7e7697"
+  },
+  "defaultPlatform": null,
+  "platforms": {
+    "yushu": {
+      "runtime": {
+        "status": "existing-child",
+        "childSkill": "qifu-yushu-list-page"
+      },
+      "readiness": "existing-child-not-revalidated",
+      "generationValidatedInAudit": false,
+      "shell": {
+        "id": "3478:657",
+        "type": "COMPONENT",
+        "width": 1248,
+        "height": 397,
+        "scope": "list-content"
+      },
+      "header": {
+        "id": "3639:1529",
+        "type": "COMPONENT_SET",
+        "width": 1366,
+        "height": 48
+      },
+      "menu": {
+        "ownerId": "3650:998",
+        "type": "COMPONENT_SET",
+        "itemWidth": 200,
+        "observedItemHeights": [
+          44,
+          40
+        ]
+      },
+      "theme": {
+        "collectionId": "VariableCollectionId:9:8",
+        "modeId": "9:6",
+        "strategy": "explicit-platform-mode"
+      },
+      "content": {
+        "strategy": "compose-platform-navigation-and-content-slots",
+        "slotIds": [
+          "3479:2",
+          "3479:3",
+          "3479:4"
+        ]
+      }
+    },
+    "jinyumeng": {
+      "runtime": {
+        "status": "existing-child",
+        "childSkill": "qifu-jinyumeng-list-page"
+      },
+      "readiness": "existing-child-not-revalidated",
+      "generationValidatedInAudit": false,
+      "shell": {
+        "id": "5022:16",
+        "type": "COMPONENT",
+        "width": 1366,
+        "height": 1024,
+        "scope": "full-app"
+      },
+      "header": {
+        "id": "4993:1440",
+        "type": "COMPONENT",
+        "width": 1366,
+        "height": 56
+      },
+      "menu": {
+        "ownerId": "4746:46261",
+        "type": "COMPONENT_SET",
+        "itemWidth": 208,
+        "itemHeight": 48,
+        "variantCount": 24
+      },
+      "theme": {
+        "collectionId": "VariableCollectionId:9:8",
+        "modeId": "4717:0",
+        "strategy": "explicit-platform-mode"
+      },
+      "content": {
+        "id": "5022:2",
+        "type": "COMPONENT",
+        "width": 1118,
+        "height": 924,
+        "strategy": "native-slots",
+        "slotIds": [
+          "5022:3",
+          "5022:4",
+          "5022:5",
+          "5022:6"
+        ]
+      }
+    },
+    "dianxiao": {
+      "runtime": {
+        "status": "existing-child",
+        "childSkill": "qifu-dianxiao-list-page"
+      },
+      "readiness": "existing-child-not-revalidated",
+      "generationValidatedInAudit": false,
+      "shell": {
+        "id": "5829:31",
+        "type": "COMPONENT",
+        "width": 1366,
+        "height": 768,
+        "scope": "full-app"
+      },
+      "header": {
+        "id": "5824:4491",
+        "type": "COMPONENT",
+        "width": 1366,
+        "height": 56
+      },
+      "menu": {
+        "ownerId": "5763:1753",
+        "type": "COMPONENT_SET",
+        "itemWidth": 200,
+        "itemHeight": 40,
+        "variantCount": 36,
+        "rootOwnerId": "5762:1537"
+      },
+      "theme": {
+        "collectionId": "VariableCollectionId:9:8",
+        "modeId": "5722:0",
+        "strategy": "explicit-platform-mode"
+      },
+      "content": {
+        "id": "5829:15",
+        "type": "COMPONENT",
+        "width": 1118,
+        "height": 668,
+        "strategy": "native-slots",
+        "slotIds": [
+          "5829:16",
+          "5829:17",
+          "5829:19"
+        ]
+      }
+    },
+    "zhikexing": {
+      "runtime": {
+        "status": "pending-adapter",
+        "childSkill": null
+      },
+      "readiness": "candidate",
+      "generationValidatedInAudit": false,
+      "shell": {
+        "id": "5468:3233",
+        "type": "FRAME",
+        "width": 1366,
+        "height": 768,
+        "scope": "full-app-candidate"
+      },
+      "header": {
+        "id": "5517:2109",
+        "type": "COMPONENT_SET",
+        "width": 1366,
+        "height": 48,
+        "actualItems": "0",
+        "instanceNameItems": "5"
+      },
+      "menu": {
+        "ownerId": "3650:998",
+        "type": "COMPONENT_SET",
+        "itemWidth": 200,
+        "observedItemHeights": [
+          44,
+          40
+        ],
+        "ownershipNote": "Candidate explicitly reuses Yushu SideMenuItem-V2; no inferred cross-platform fallback."
+      },
+      "theme": {
+        "collectionId": "VariableCollectionId:9:8",
+        "modeId": null,
+        "strategy": "inherit-verified-template-bindings",
+        "observedInheritedModeId": "9:6"
+      },
+      "content": {
+        "strategy": "candidate-only-no-generation-adapter"
+      },
+      "manualCandidate": {
+        "id": "5408:13969",
+        "type": "FRAME",
+        "width": 1366,
+        "height": 768
+      },
+      "legacyRejected": {
+        "id": "4892:34812",
+        "type": "FRAME",
+        "width": 1366,
+        "height": 768,
+        "headerOwnerId": "3639:1529",
+        "eligibleDefault": false,
+        "nameWidthClaim": 1440,
+        "reason": "Yushu header owner and unresolved style gaps"
+      },
+      "visibleUnstyledTextCount": 50
+    },
+    "zhineng-yunying": {
+      "runtime": {
+        "status": "pending-adapter",
+        "childSkill": null
+      },
+      "readiness": "shell-audited",
+      "generationValidatedInAudit": false,
+      "shell": {
+        "id": "6155:1851",
+        "type": "FRAME",
+        "width": 1366,
+        "height": 768,
+        "scope": "full-app"
+      },
+      "header": {
+        "id": "6148:32454",
+        "type": "FRAME",
+        "width": 1366,
+        "height": 48
+      },
+      "menu": {
+        "ownerId": "6158:1989",
+        "type": "COMPONENT_SET",
+        "itemWidth": 200,
+        "itemHeight": 40,
+        "variantCount": 24,
+        "levels": [
+          1,
+          2
+        ],
+        "currentInstanceCount": 17,
+        "observedPropertyKeys": [
+          "Label#5763:0",
+          "showIcon 显示图标#5763:37",
+          "icon 图标#5763:74"
+        ]
+      },
+      "theme": {
+        "collectionId": "VariableCollectionId:9:8",
+        "modeId": "2158:0",
+        "strategy": "explicit-platform-mode"
+      },
+      "content": {
+        "id": "6148:34365",
+        "type": "RECTANGLE",
+        "width": 1134,
+        "height": 633,
+        "x": 216,
+        "y": 102,
+        "strategy": "clone-frame-create-content-container-on-copy",
+        "requiresShellRebuild": false,
+        "nativeSlot": false
+      },
+      "tabs": {
+        "id": "6156:1989",
+        "type": "FRAME",
+        "width": 1134,
+        "height": 38
+      },
+      "visibleUnstyledTextCount": 7
+    }
+  }
+}

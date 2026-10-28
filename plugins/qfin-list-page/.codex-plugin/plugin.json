@@ -1,6 +1,6 @@
 {
   "name": "qfin-list-page",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Route QFIN list-page requests to the Yushu, Jinyumeng, or Dianxiao platform skill.",
   "author": {
     "name": "潘越"
